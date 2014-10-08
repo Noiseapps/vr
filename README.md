@@ -7,3 +7,5 @@ test2
 Szymon tu był
 
 i jeszcze ja
+
+windows test
