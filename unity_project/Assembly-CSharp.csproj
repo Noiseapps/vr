@@ -46,7 +46,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Flicker.cs" />
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptProjectFiles\uScriptUserTypes.cs" />
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptProjectFiles\uScripts\_GeneratedCode\active_anim.cs" />
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptProjectFiles\uScripts\_GeneratedCode\active_anim_Component.cs" />

@@ -46,7 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Flicker2.js" />
+     <Compile Include="Assets\Flickering.js" />
  <Reference Include="uScriptRuntime">
  <HintPath>D:/Dokumenty/GitHub/vr/unity_project/Assets/_makeYOURlevel_LITE/PREFAB_makeYOURlevel_LITE/6_scripts/uScriptRuntime/uScriptRuntime.dll</HintPath>
  </Reference>
