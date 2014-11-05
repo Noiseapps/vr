@@ -46,7 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CubeCollider.js" />
      <Compile Include="Assets\Flickering.js" />
+     <Compile Include="Assets\PlayerController.js" />
+     <Compile Include="Assets\Rotator.js" />
  <Reference Include="Assembly-UnityScript-firstpass">
  <HintPath>D:/Dokumenty/GitHub/vr/unity_project/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
  </Reference>
