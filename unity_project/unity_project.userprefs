@@ -1,9 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\CubeCollider.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\Kinect\KinectImgControllers\DisplayColor.cs">
     <Files>
-      <File FileName="Assets\PlayerController.js" Line="10" Column="2" />
-      <File FileName="Assets\CubeCollider.js" Line="5" Column="44" />
+      <File FileName="Assets\Script\Kinect\KinectModelControllers\KinectModelControllerV2.cs" Line="98" Column="24" />
+      <File FileName="Assets\Script\Kinect\KinectImgControllers\DisplayColor.cs" Line="23" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
