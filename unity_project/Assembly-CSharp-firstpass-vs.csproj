@@ -47,6 +47,17 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
+     <Compile Include="Assets\Standard Assets\Kinect\KinectImgControllers\DisplayColor.cs" />
+     <Compile Include="Assets\Standard Assets\Kinect\KinectImgControllers\DisplayDepth.cs" />
+     <Compile Include="Assets\Standard Assets\Kinect\KinectModelControllers\KinectModelControllerV2.cs" />
+     <Compile Include="Assets\Standard Assets\Kinect\KinectWrapper\DepthWrapper.cs" />
+     <Compile Include="Assets\Standard Assets\Kinect\KinectWrapper\DeviceOrEmulator.cs" />
+     <Compile Include="Assets\Standard Assets\Kinect\KinectWrapper\KinectEmulator.cs" />
+     <Compile Include="Assets\Standard Assets\Kinect\KinectWrapper\KinectInterop.cs" />
+     <Compile Include="Assets\Standard Assets\Kinect\KinectWrapper\KinectRecorder.cs" />
+     <Compile Include="Assets\Standard Assets\Kinect\KinectWrapper\KinectSensor.cs" />
+     <Compile Include="Assets\Standard Assets\Kinect\KinectWrapper\SkeletonWrapper.cs" />
+     <Compile Include="Assets\Standard Assets\KinectPointController.cs" />
      <None Include="Assets\Asset\Shaders\Normal-Diffuse.shader" />
  <Reference Include="uScriptRuntime">
  <HintPath>C:/Unity/vr/unity_project/Assets/_makeYOURlevel_LITE/PREFAB_makeYOURlevel_LITE/6_scripts/uScriptRuntime/uScriptRuntime.dll</HintPath>

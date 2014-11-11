@@ -53,17 +53,6 @@
      <Compile Include="Assets\Pickupable.cs" />
      <Compile Include="Assets\Rotate2Left.cs" />
      <Compile Include="Assets\Rotate2Right.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectImgControllers\DisplayColor.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectImgControllers\DisplayDepth.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectModelControllers\KinectModelControllerV2.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectModelControllers\KinectPointController.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\DepthWrapper.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\DeviceOrEmulator.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectEmulator.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectInterop.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectRecorder.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectSensor.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\SkeletonWrapper.cs" />
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptProjectFiles\uScriptUserTypes.cs" />
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptProjectFiles\uScripts\_GeneratedCode\active_anim.cs" />
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptProjectFiles\uScripts\_GeneratedCode\active_anim_Component.cs" />
@@ -719,9 +708,6 @@
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptRuntime\uScriptFlashStubs.cs" />
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptRuntime\uScriptUnityVersion.cs" />
      <None Include="Assets\Asset\Shaders\Normal-Diffuse.shader" />
- <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Unity/vr/unity_project/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
- </Reference>
  <Reference Include="uScriptRuntime">
  <HintPath>C:/Unity/vr/unity_project/Assets/_makeYOURlevel_LITE/PREFAB_makeYOURlevel_LITE/6_scripts/uScriptRuntime/uScriptRuntime.dll</HintPath>
  </Reference>

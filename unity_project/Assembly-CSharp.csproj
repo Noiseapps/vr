@@ -53,17 +53,6 @@
      <Compile Include="Assets\Pickupable.cs" />
      <Compile Include="Assets\Rotate2Left.cs" />
      <Compile Include="Assets\Rotate2Right.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectImgControllers\DisplayColor.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectImgControllers\DisplayDepth.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectModelControllers\KinectModelControllerV2.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectModelControllers\KinectPointController.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\DepthWrapper.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\DeviceOrEmulator.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectEmulator.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectInterop.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectRecorder.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\KinectSensor.cs" />
-     <Compile Include="Assets\Script\Kinect\KinectWrapper\SkeletonWrapper.cs" />
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptProjectFiles\uScriptUserTypes.cs" />
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptProjectFiles\uScripts\_GeneratedCode\active_anim.cs" />
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptProjectFiles\uScripts\_GeneratedCode\active_anim_Component.cs" />
@@ -726,8 +715,6 @@
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{89E40A3E-5086-C4C7-05D0-974E1AFE9663}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
-    <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
-      <Project>{F9EE35A7-DB8E-FF0B-13DC-DC9FDCD5975F}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

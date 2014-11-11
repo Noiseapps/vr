@@ -46,14 +46,16 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Asset\Character Controllers\Sources\Scripts\CharacterMotor.js" />
+     <Compile Include="Assets\Asset\Character Controllers\Sources\Scripts\FPSInputController.js" />
+     <Compile Include="Assets\Asset\Character Controllers\Sources\Scripts\PlatformInputController.js" />
+     <Compile Include="Assets\Asset\Character Controllers\Sources\Scripts\ThirdPersonCamera.js" />
+     <Compile Include="Assets\Asset\Character Controllers\Sources\Scripts\ThirdPersonController.js" />
      <Compile Include="Assets\Script\CubeCollider.js" />
      <Compile Include="Assets\Script\Flickering.js" />
      <Compile Include="Assets\Script\PlayerController.js" />
      <Compile Include="Assets\Script\Rotator.js" />
      <None Include="Assets\Asset\Shaders\Normal-Diffuse.shader" />
- <Reference Include="Assembly-UnityScript-firstpass">
- <HintPath>C:/Unity/vr/unity_project/Library/ScriptAssemblies/Assembly-UnityScript-firstpass.dll</HintPath>
- </Reference>
  <Reference Include="uScriptRuntime">
  <HintPath>C:/Unity/vr/unity_project/Assets/_makeYOURlevel_LITE/PREFAB_makeYOURlevel_LITE/6_scripts/uScriptRuntime/uScriptRuntime.dll</HintPath>
  </Reference>
