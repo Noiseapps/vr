@@ -1,17 +1,27 @@
 private var motor : CharacterMotor;
 var kinectPoint : KinectPointController;
+var deltaH : double;
+var deltaV : double;
 
 // Use this for initialization
 function Awake () {
 	motor = GetComponent(CharacterMotor);
-	kinectPoint = GetComponent(KinectPointController);
-	Debug.Log(kinectPoint);
+	kinectPoint = this.GetComponent(KinectPointController);
+}
+
+function Start () {
+	deltaH = kinectPoint.sw.bonePos[0,6].x;
+	deltaV = kinectPoint.sw.bonePos[0,19].z;
+	Debug.Log(deltaH + " , " + deltaV);
 }
 
 // Update is called once per frame
 function Update () {
 	// Get the input vector from kayboard or analog stick
-	var directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+	var tempDeltaH = kinectPoint.sw.bonePos[0,6].x - deltaH;
+	var tempDeltaV = kinectPoint.sw.bonePos[0,19].z - deltaV;
+	Debug.Log(tempDeltaH + " , " + tempDeltaV);
+	var directionVector = new Vector3(0, 0, tempDeltaV);
 	
 	if (directionVector != Vector3.zero) {
 		// Get the length of the directon vector and then normalize it
