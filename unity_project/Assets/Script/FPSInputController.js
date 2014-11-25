@@ -1,6 +1,5 @@
 private var motor : CharacterMotor;
 var kinectPoint : KinectPointController;
-var deltaH : double;
 var deltaV : double;
 
 // Use this for initialization
@@ -10,17 +9,16 @@ function Awake () {
 }
 
 function Start () {
-	deltaH = kinectPoint.sw.bonePos[0,6].x;
 	deltaV = kinectPoint.sw.bonePos[0,19].z;
-	Debug.Log(deltaH + " , " + deltaV);
 }
+
+var diffConst2 = 0.2;
 
 // Update is called once per frame
 function Update () {
 	// Get the input vector from kayboard or analog stick
-	var tempDeltaH = kinectPoint.sw.bonePos[0,6].x - deltaH;
 	var tempDeltaV = kinectPoint.sw.bonePos[0,19].z - deltaV;
-	Debug.Log(tempDeltaH + " , " + tempDeltaV);
+	
 	var directionVector = new Vector3(0, 0, tempDeltaV);
 	
 	if (directionVector != Vector3.zero) {
@@ -40,9 +38,19 @@ function Update () {
 		directionVector = directionVector * directionLength;
 	}
 	
-	// Apply the direction to the CharacterMotor
+	var leftShoulderZ = kinectPoint.sw.bonePos[0,4].z;
+	var rightShoulderZ = kinectPoint.sw.bonePos[0,8].z;
+	var rotateSpeed = 0;
+	var shoulderDiff = leftShoulderZ - rightShoulderZ;
+	if(shoulderDiff < -diffConst2){
+		rotateSpeed = -50;
+	} else if(shoulderDiff > diffConst2) {
+		rotateSpeed = 50;
+	}
+	Debug.Log(shoulderDiff + ", " + rotateSpeed + ", " + leftShoulderZ + ", " + rightShoulderZ);
+	var rotVect = Vector3.up * Time.deltaTime * rotateSpeed;
+	transform.Rotate(rotVect);
 	motor.inputMoveDirection = transform.rotation * directionVector;
-	motor.inputJump = Input.GetButton("Jump");
 }
 
 // Require a character controller to be attached to the same game object
