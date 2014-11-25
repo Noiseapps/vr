@@ -49,8 +49,6 @@
      <Compile Include="Assets\AimAndThrow.cs" />
      <Compile Include="Assets\BendDown.cs" />
      <Compile Include="Assets\MoveForward.cs" />
-     <Compile Include="Assets\PickupObject.cs" />
-     <Compile Include="Assets\Pickupable.cs" />
      <Compile Include="Assets\Rotate2Left.cs" />
      <Compile Include="Assets\Rotate2Right.cs" />
      <Compile Include="Assets\_makeYOURlevel_LITE\PREFAB_makeYOURlevel_LITE\6_scripts\uScriptProjectFiles\uScriptUserTypes.cs" />

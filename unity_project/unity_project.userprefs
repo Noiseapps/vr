@@ -2,7 +2,8 @@
   <MonoDevelop.Ide.Workspace />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\FPSInputController.js">
     <Files>
-      <File FileName="Assets\Script\FPSInputController.js" Line="61" Column="1" />
+      <File FileName="Assets\Standard Assets\KinectPointController.cs" Line="13" Column="26" />
+      <File FileName="Assets\Script\FPSInputController.js" Line="30" Column="59" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

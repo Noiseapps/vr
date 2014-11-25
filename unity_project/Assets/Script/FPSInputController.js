@@ -28,8 +28,8 @@ function Update () {
 	
 	// Assign movement vector
 	var tempDeltaV = kinectPoint.sw.bonePos[0,19].z - deltaV;
-	var directionVector = new Vector3(0, 0, tempDeltaV);
-	
+//	var directionVector = new Vector3(0, 0, tempDeltaV);
+	var directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 	if (directionVector != Vector3.zero) {
 		var directionLength = directionVector.magnitude;
 		directionVector = directionVector / directionLength;

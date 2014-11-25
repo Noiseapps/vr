@@ -58,6 +58,8 @@
      <Compile Include="Assets\Standard Assets\Kinect\KinectWrapper\KinectSensor.cs" />
      <Compile Include="Assets\Standard Assets\Kinect\KinectWrapper\SkeletonWrapper.cs" />
      <Compile Include="Assets\Standard Assets\KinectPointController.cs" />
+     <Compile Include="Assets\Standard Assets\PickupObject.cs" />
+     <Compile Include="Assets\Standard Assets\Pickupable.cs" />
      <None Include="Assets\Asset\Shaders\Normal-Diffuse.shader" />
  <Reference Include="uScriptRuntime">
  <HintPath>D:/Dokumenty/GitHub/vr/unity_project/Assets/_makeYOURlevel_LITE/PREFAB_makeYOURlevel_LITE/6_scripts/uScriptRuntime/uScriptRuntime.dll</HintPath>
