@@ -7,11 +7,20 @@ public class PickupObject : MonoBehaviour {
 	GameObject carriedObject;
 	public float distance;
 	public float smooth;
+	public bool grab;
+
+	public void setGrab(){
+		grab = true;
+	}
+
+	public void setNotGrab(){
+		grab = false;
+	}
 	
 	// Use this for initialization
 	void Start () {
 		mainCamera = GameObject.FindWithTag ("MainCamera");
-		Debug.Log ("PickupObject start");
+		grab = false;
 	}
 	
 	// Update is called once per frame
@@ -32,9 +41,9 @@ public class PickupObject : MonoBehaviour {
 	}
 	
 	void pickup() {
-		if (Input.GetKeyDown (KeyCode.E)) {
+		if (grab) {
 			int x = Screen.width / 2;
-			int y = Screen.height / 2;
+			int y = Screen.height / 4;
 			
 			Ray ray = mainCamera.camera.ScreenPointToRay(new Vector3(x,y));
 			RaycastHit hit;
@@ -50,7 +59,7 @@ public class PickupObject : MonoBehaviour {
 	}
 
 	void checkDrop() {
-		if (Input.GetKeyDown (KeyCode.E)) {
+		if (!grab) {
 			dropObject();
 		}
 	}
