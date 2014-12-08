@@ -7,7 +7,9 @@ public class PickupObject : MonoBehaviour {
 	GameObject carriedObject;
 	public float distance;
 	public float smooth;
-	public bool grab;
+	private bool grab;
+	private bool isThrow;
+//	AudioClip pick;
 
 	public void setGrab(){
 		grab = true;
@@ -15,6 +17,14 @@ public class PickupObject : MonoBehaviour {
 
 	public void setNotGrab(){
 		grab = false;
+	}
+
+	public void setThrow(){
+		isThrow = true;
+	}
+	
+	public void setNotThrow(){
+		isThrow = false;
 	}
 	
 	// Use this for initialization
@@ -28,11 +38,13 @@ public class PickupObject : MonoBehaviour {
 		if (carrying) {
 			carry(carriedObject);
 			checkDrop();
+			checkThrow();
 		} else {
 			pickup();
 		}
 	}
-	
+
+
 	void carry(GameObject o){
 
 		//o.transform.position = mainCamera.transform.position + mainCamera.transform.forward * distance;
@@ -44,12 +56,12 @@ public class PickupObject : MonoBehaviour {
 		if (grab) {
 			int x = Screen.width / 2;
 			int y = Screen.height / 4;
-			
 			Ray ray = mainCamera.camera.ScreenPointToRay(new Vector3(x,y));
 			RaycastHit hit;
 			if(Physics.Raycast(ray, out hit)) {
 				Pickupable p = hit.collider.GetComponent<Pickupable>();
 				if(p != null){
+//					audio.PlayOneShot(pick);
 					carrying = true;
 					carriedObject = p.gameObject;
 					p.gameObject.rigidbody.isKinematic = true;
@@ -62,6 +74,19 @@ public class PickupObject : MonoBehaviour {
 		if (!grab) {
 			dropObject();
 		}
+	}
+
+	void checkThrow(){
+	if (isThrow) {
+			throwObject ();
+		}
+	}
+
+	void throwObject(){
+		carriedObject.gameObject.rigidbody.isKinematic = false;
+		carriedObject.gameObject.rigidbody.AddForce(transform.forward * 500);
+		carrying = false;
+		carriedObject = null;
 	}
 
 	void dropObject() {

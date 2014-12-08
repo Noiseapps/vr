@@ -41,22 +41,30 @@ function Update () {
 	
 	//Bend down
 	var deltaHandRight = kinectPoint.sw.bonePos[0,11].z - initHandRight;
-	Debug.Log("" + kinectPoint.sw.bonePos[0,11].y + ", " + kinectPoint.sw.bonePos[0,16].y);
+//	Debug.Log("" + kinectPoint.sw.bonePos[0,11].y + ", " + kinectPoint.sw.bonePos[0,16].y);
 	if(deltaHandRight > GRAB2){
 		pickupObject.setGrab();
 	} else if( deltaHandRight < GRAB2 && (kinectPoint.sw.bonePos[0,11].y < kinectPoint.sw.bonePos[0,16].y)){
 		pickupObject.setNotGrab();
 	}
 	
+	// Throwing
+	if(kinectPoint.sw.bonePos[0,11].y > kinectPoint.sw.bonePos[0,3].y){
+		pickupObject.setThrow();
+	} else {
+		pickupObject.setNotThrow();
+	}
+	
 	// Rotate
 	var leftShoulderZ = kinectPoint.sw.bonePos[0,4].z;
 	var rightShoulderZ = kinectPoint.sw.bonePos[0,8].z;
+//	Debug.Log("" + leftShoulderZ + ", " + rightShoulderZ);
 	var rotateSpeed = 0;
 	var shoulderDiff = leftShoulderZ - rightShoulderZ;
 	if(shoulderDiff < -DIFF){
-		rotateSpeed = -50;
+		rotateSpeed = -60;
 	} else if(shoulderDiff > DIFF) {
-		rotateSpeed = 50;
+		rotateSpeed = 60;
 	}
 	var rotVect = Vector3.up * Time.deltaTime * rotateSpeed;
 	transform.Rotate(rotVect);
