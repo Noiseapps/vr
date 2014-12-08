@@ -9,6 +9,7 @@ public class PickupObject : MonoBehaviour {
 	public float smooth;
 	private bool grab;
 	private bool isThrow;
+	private bool hasKinect = false;
 //	AudioClip pick;
 
 	public void setGrab(){
@@ -53,7 +54,7 @@ public class PickupObject : MonoBehaviour {
 	}
 	
 	void pickup() {
-		if (grab) {
+		if ((hasKinect && grab) || (!hasKinect && Input.GetKeyDown (KeyCode.E))) {
 			int x = Screen.width / 2;
 			int y = Screen.height / 4;
 			Ray ray = mainCamera.camera.ScreenPointToRay(new Vector3(x,y));
@@ -71,13 +72,13 @@ public class PickupObject : MonoBehaviour {
 	}
 
 	void checkDrop() {
-		if (!grab) {
+		if ((hasKinect && !grab) || (!hasKinect && Input.GetKeyDown (KeyCode.E))) {
 			dropObject();
 		}
 	}
 
 	void checkThrow(){
-	if (isThrow) {
+	if ((hasKinect && isThrow) || (!hasKinect && Input.GetKeyDown(KeyCode.Q))) {
 			throwObject ();
 		}
 	}
