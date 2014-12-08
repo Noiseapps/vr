@@ -9,7 +9,9 @@ public class PickupObject : MonoBehaviour {
 	public float smooth;
 	private bool grab;
 	private bool isThrow;
-	private bool hasKinect = false;
+	private bool hasKinect = true;
+	private double amount, speed;
+	private int throwFrame;
 //	AudioClip pick;
 
 	public void setGrab(){
@@ -20,12 +22,16 @@ public class PickupObject : MonoBehaviour {
 		grab = false;
 	}
 
-	public void setThrow(){
+	public void setThrow(double mAmount, double mSpeed){
 		isThrow = true;
+		amount = mAmount;
+		speed = mSpeed;
 	}
 	
 	public void setNotThrow(){
 		isThrow = false;
+		amount = 0;
+		speed = 0;
 	}
 	
 	// Use this for initialization
@@ -54,7 +60,7 @@ public class PickupObject : MonoBehaviour {
 	}
 	
 	void pickup() {
-		if ((hasKinect && grab) || (!hasKinect && Input.GetKeyDown (KeyCode.E))) {
+		if (grab && (Time.frameCount - throwFrame) > 25) {
 			int x = Screen.width / 2;
 			int y = Screen.height / 4;
 			Ray ray = mainCamera.camera.ScreenPointToRay(new Vector3(x,y));
@@ -72,20 +78,26 @@ public class PickupObject : MonoBehaviour {
 	}
 
 	void checkDrop() {
-		if ((hasKinect && !grab) || (!hasKinect && Input.GetKeyDown (KeyCode.E))) {
+		if (!grab) {
 			dropObject();
 		}
 	}
 
 	void checkThrow(){
-	if ((hasKinect && isThrow) || (!hasKinect && Input.GetKeyDown(KeyCode.Q))) {
+	if (isThrow) {
 			throwObject ();
 		}
 	}
 
 	void throwObject(){
+		throwFrame = Time.frameCount;
 		carriedObject.gameObject.rigidbody.isKinematic = false;
-		carriedObject.gameObject.rigidbody.AddForce(transform.forward * 500);
+		float x = (float) (transform.forward.x / speed * 500);
+		float y = (float) (transform.up.y * amount * 500);
+		Debug.Log (x + ", " + y);
+		Vector3 throwDirection = new Vector3 (x, y, 0);
+		Debug.Log (throwDirection);
+		carriedObject.gameObject.rigidbody.AddForce(throwDirection);
 		carrying = false;
 		carriedObject = null;
 	}

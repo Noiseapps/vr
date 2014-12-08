@@ -3,11 +3,12 @@ var kinectPoint : KinectPointController;
 var pickupObject : PickupObject;
 var deltaV : double;
 var initHandRight : double;
-var handYPosPrevFrame : double;
-var isThrow : int;
-
-var hasKinect : int = 0;
-
+var handYPosPrevFrame : double = 0;
+private var isThrow : int = 0;
+private var hasKinect : int = 1;
+private var initThrowYPos : double;
+private var initThrowTime : float;
+private var maxDelta : double = 0;
 function Awake () {
 	motor = GetComponent(CharacterMotor);
 	kinectPoint = this.GetComponent(KinectPointController);
@@ -19,8 +20,9 @@ function Start () {
 	initHandRight = kinectPoint.sw.bonePos[0,11].z;
 }
 
-var DIFF = 0.2;
-var GRAB2 = 0.4;
+private var DIFF = 0.2;
+private var GRAB2 = 0.4;
+private var THROW_THR = 0.1;
 
 function Update () {
 	var directionVector;
@@ -45,11 +47,35 @@ function Update () {
 		} else if( deltaHandRight < GRAB2 && (kinectPoint.sw.bonePos[0,11].y < kinectPoint.sw.bonePos[0,16].y)){
 			pickupObject.setNotGrab();
 		}
-		
 		// Throwing
-		
-		if(kinectPoint.sw.bonePos[0,11].y > kinectPoint.sw.bonePos[0,3].y){
-			pickupObject.setThrow();
+		var deltaThrow = 0.0;
+		var throwTime = 0.0;
+		var throwAmount = 0.0;
+		if(handYPosPrevFrame != 0){
+			deltaThrow = kinectPoint.sw.bonePos[0,11].y - handYPosPrevFrame;
+			if(deltaThrow > maxDelta) maxDelta = deltaThrow;
+			handYPosPrevFrame = kinectPoint.sw.bonePos[0,11].y;
+//			Debug.Log(deltaThrow);
+		} else {
+			handYPosPrevFrame = kinectPoint.sw.bonePos[0,11].y;
+		}
+		if(isThrow == 0 && deltaThrow > THROW_THR){
+			Debug.Log("Start check for throw");
+			isThrow = 1;
+			initThrowYPos = kinectPoint.sw.bonePos[0,11].y;
+			initThrowTime = Time.frameCount;
+			throwTime = 0.0;
+			throwAmount = 0.0;
+		} else if (isThrow == 1 && deltaThrow <= THROW_THR){
+			Debug.Log("Stop check for Throw");
+			isThrow = 0;
+			throwAmount = kinectPoint.sw.bonePos[0,11].y - initThrowYPos;
+			throwTime = Time.frameCount - initThrowTime;
+		}
+		if(throwAmount > 0.0 && throwTime > 0.0){
+			pickupObject.setThrow(throwAmount, throwTime);
+			throwTime = 0.0;
+			throwAmount = 0.0;
 		} else {
 			pickupObject.setNotThrow();
 		}
@@ -65,7 +91,6 @@ function Update () {
 		} else if(shoulderDiff > DIFF) {
 			rotateSpeed = 60;
 		}	
-	
 		var rotVect = Vector3.up * Time.deltaTime * rotateSpeed;
 		transform.Rotate(rotVect);
 	} else {
@@ -81,6 +106,11 @@ function Update () {
 
 	motor.inputMoveDirection = transform.rotation * directionVector;
 }
+
+function OnDestroy(){
+	Debug.Log("max: " + maxDelta);
+}
+
 
 @script RequireComponent (CharacterMotor)
 @script RequireComponent (KinectPointController)
