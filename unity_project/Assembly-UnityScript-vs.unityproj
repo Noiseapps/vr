@@ -46,13 +46,16 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Script\BounceUpAndDown.js" />
      <Compile Include="Assets\Script\CharacterMotor.js" />
      <Compile Include="Assets\Script\CubeCollider.js" />
+     <Compile Include="Assets\Script\CylinderCollider.js" />
      <Compile Include="Assets\Script\FPSInputController.js" />
      <Compile Include="Assets\Script\Flickering.js" />
      <Compile Include="Assets\Script\PlayerController.js" />
      <Compile Include="Assets\Script\Rotator.js" />
      <None Include="Assets\Asset\Shaders\Normal-Diffuse.shader" />
+     <None Include="Assets\Standard Assets\3DText.shader" />
  <Reference Include="uScriptRuntime">
  <HintPath>D:/Dokumenty/GitHub/vr/unity_project/Assets/_makeYOURlevel_LITE/PREFAB_makeYOURlevel_LITE/6_scripts/uScriptRuntime/uScriptRuntime.dll</HintPath>
  </Reference>

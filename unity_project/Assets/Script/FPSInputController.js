@@ -21,13 +21,13 @@ function Start () {
 }
 
 private var THROW_THR = 0.1;
-private var DIFF = 0.17;
+private var DIFF = 0.12;
 private var GRAB2 = 0.4;
-private var rotationCoefficient : int = 1000.0;
-private var rotationConstant : int = 130;
+private var rotationCoefficient : int = 1500.0;
+private var rotationConstant : int = 155;
 private var rotateSpeed : double;
 private var movementSlowDownCoef : double = 0.25;  // 0.5 for movementMinima 1.0
-private var movementSensitivityCoef : double = 0.3;
+private var movementSensitivityCoef : double = 0.5;
 private var movementMinima : double = 2.0;
 
 function Update () {

@@ -77,6 +77,12 @@ public class PickupObject : MonoBehaviour {
 		}
 	}
 
+	public void forcePickup(Pickupable p) {
+		carrying = true;
+		carriedObject = p.gameObject;
+		p.gameObject.rigidbody.isKinematic = true;
+	}
+
 	void checkDrop() {
 		if (!grab) {
 			dropObject();
@@ -92,7 +98,7 @@ public class PickupObject : MonoBehaviour {
 	void throwObject(){
 		throwFrame = Time.frameCount;
 		carriedObject.gameObject.rigidbody.isKinematic = false;
-		Vector3 throwDirection = Vector3.Scale (new Vector3(transform.forward.x, 1f, transform.forward.z), new Vector3((float)(750f/speed), (float)(400f*amount), (float)(750f/speed)));
+		Vector3 throwDirection = Vector3.Scale (new Vector3(transform.forward.x, 1f, transform.forward.z), new Vector3((float)(750f/speed), (float)(500f*amount), (float)(750f/speed)));
 		Debug.Log ("Throw : " + throwDirection + " from speed: " + speed + ", amount: " + amount);
 		carriedObject.gameObject.rigidbody.AddForce(throwDirection);
 		carrying = false;
