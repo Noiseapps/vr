@@ -39,14 +39,15 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>D:/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>D:/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Standard Assets\Character Controllers\Sources\Scripts\MouseLook.cs" />
+     <Compile Include="Assets\Standard Assets\FloorCollider.cs" />
      <Compile Include="Assets\Standard Assets\Kinect\KinectImgControllers\DisplayColor.cs" />
      <Compile Include="Assets\Standard Assets\Kinect\KinectImgControllers\DisplayDepth.cs" />
      <Compile Include="Assets\Standard Assets\Kinect\KinectModelControllers\KinectModelControllerV2.cs" />
@@ -61,8 +62,9 @@
      <Compile Include="Assets\Standard Assets\PickupObject.cs" />
      <Compile Include="Assets\Standard Assets\Pickupable.cs" />
      <None Include="Assets\Asset\Shaders\Normal-Diffuse.shader" />
+     <None Include="Assets\Standard Assets\3DText.shader" />
  <Reference Include="uScriptRuntime">
- <HintPath>D:/Dokumenty/GitHub/vr/unity_project/Assets/_makeYOURlevel_LITE/PREFAB_makeYOURlevel_LITE/6_scripts/uScriptRuntime/uScriptRuntime.dll</HintPath>
+ <HintPath>C:/Unity/vr/unity_project/Assets/_makeYOURlevel_LITE/PREFAB_makeYOURlevel_LITE/6_scripts/uScriptRuntime/uScriptRuntime.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

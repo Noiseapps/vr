@@ -7,7 +7,8 @@ function OnTriggerEnter (other : Collider){
 //		other.gameObject.SetActive(false);
 		this.gameObject.SetActive(false);
 		var object : GameObject = GameObject.FindGameObjectWithTag(door);
-		object.active = false;
-//		object.rigidbody.constraints = RigidbodyConstraints.None;
+		object.gameObject.SetActive(false);
+		
+		//		object.rigidbody.constraints = RigidbodyConstraints.None;
 	}
 }

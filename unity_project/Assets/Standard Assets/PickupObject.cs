@@ -13,6 +13,7 @@ public class PickupObject : MonoBehaviour {
 	private double amount, speed;
 	private int throwFrame;
 //	AudioClip pick;
+	
 
 	public void setGrab(){
 		grab = true;
@@ -77,6 +78,12 @@ public class PickupObject : MonoBehaviour {
 		}
 	}
 
+	public void forcePickup(Pickupable p) {
+		carrying = true;
+		carriedObject = p.gameObject;
+		p.gameObject.rigidbody.isKinematic = true;
+	}
+	
 	void checkDrop() {
 		if (!grab) {
 			dropObject();
