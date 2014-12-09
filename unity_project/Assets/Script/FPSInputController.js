@@ -60,14 +60,14 @@ function Update () {
 			handYPosPrevFrame = kinectPoint.sw.bonePos[0,11].y;
 		}
 		if(isThrow == 0 && deltaThrow > THROW_THR){
-			Debug.Log("Start check for throw");
+//			Debug.Log("Start check for throw");
 			isThrow = 1;
 			initThrowYPos = kinectPoint.sw.bonePos[0,11].y;
 			initThrowTime = Time.frameCount;
 			throwTime = 0.0;
 			throwAmount = 0.0;
 		} else if (isThrow == 1 && deltaThrow <= THROW_THR){
-			Debug.Log("Stop check for Throw");
+//			Debug.Log("Stop check for Throw");
 			isThrow = 0;
 			throwAmount = kinectPoint.sw.bonePos[0,11].y - initThrowYPos;
 			throwTime = Time.frameCount - initThrowTime;
