@@ -20,9 +20,15 @@ function Start () {
 	initHandRight = kinectPoint.sw.bonePos[0,11].z;
 }
 
-private var DIFF = 0.2;
-private var GRAB2 = 0.4;
 private var THROW_THR = 0.1;
+private var DIFF = 0.17;
+private var GRAB2 = 0.4;
+private var rotationCoefficient : int = 1000.0;
+private var rotationConstant : int = 130;
+private var rotateSpeed : double;
+private var movementSlowDownCoef : double = 0.25;  // 0.5 for movementMinima 1.0
+private var movementSensitivityCoef : double = 0.3;
+private var movementMinima : double = 2.0;
 
 function Update () {
 	var directionVector;
@@ -37,6 +43,7 @@ function Update () {
 		
 		// Assign movement vector
 		var tempDeltaV = kinectPoint.sw.bonePos[0,19].z - deltaV;
+		tempDeltaV = tempDeltaV / movementSensitivityCoef;
 		directionVector = new Vector3(0, 0, tempDeltaV);
 		
 		//Bend down
@@ -87,10 +94,10 @@ function Update () {
 		var rotateSpeed = 0;
 		var shoulderDiff = leftShoulderZ - rightShoulderZ;
 		if(shoulderDiff < -DIFF){
-			rotateSpeed = -60;
+			rotateSpeed = rotationConstant + shoulderDiff*rotationCoefficient; // should be value < 0
 		} else if(shoulderDiff > DIFF) {
-			rotateSpeed = 60;
-		}	
+			rotateSpeed = -rotationConstant + shoulderDiff*rotationCoefficient; // should be value > 0
+		}
 		var rotVect = Vector3.up * Time.deltaTime * rotateSpeed;
 		transform.Rotate(rotVect);
 	} else {
@@ -99,9 +106,9 @@ function Update () {
 	if (directionVector != Vector3.zero) {
 		var directionLength = directionVector.magnitude;
 		directionVector = directionVector / directionLength;
-		directionLength = Mathf.Min(1, directionLength);
+		directionLength = Mathf.Min(movementMinima, directionLength);
 		directionLength = directionLength * directionLength;
-		directionVector = directionVector * directionLength;
+		directionVector = directionVector * (directionLength * movementSlowDownCoef);
 	}
 
 	motor.inputMoveDirection = transform.rotation * directionVector;

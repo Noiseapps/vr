@@ -1,10 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\PickupObject.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\FPSInputController.js">
     <Files>
-      <File FileName="Assets\Standard Assets\PickupObject.cs" Line="98" Column="20" />
-      <File FileName="Assets\Script\FPSInputController.js" Line="8" Column="32" />
-      <File FileName="Assets\Script\CubeCollider.js" Line="1" Column="1" />
+      <File FileName="Assets\Script\FPSInputController.js" Line="111" Column="80" />
+      <File FileName="Assets\Standard Assets\PickupObject.cs" Line="108" Column="1" />
+      <File FileName="Assets\Script\CubeCollider.js" Line="13" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
