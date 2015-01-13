@@ -2,6 +2,8 @@ private var motor : CharacterMotor;
 var kinectPoint : KinectPointController;
 var pickupObject : PickupObject;
 var deltaV : double;
+var deltaSR : double;  // delta for side movement right
+var deltaSL : double;  // delta for side movement left
 var initHandRight : double;
 var handYPosPrevFrame : double = 0;
 private var isThrow : int = 0;
@@ -17,6 +19,8 @@ function Awake () {
 
 function Start () {
 	deltaV = kinectPoint.sw.bonePos[0,19].z;
+	deltaSR = kinectPoint.sw.bonePos[0,19].x;
+	deltaSL = kinectPoint.sw.bonePos[0,15].x;
 	initHandRight = kinectPoint.sw.bonePos[0,11].z;
 }
 
@@ -28,6 +32,7 @@ private var rotationConstant : int = 155;
 private var rotateSpeed : double;
 private var movementSlowDownCoef : double = 0.25;  // 0.5 for movementMinima 1.0
 private var movementSensitivityCoef : double = 0.5;
+private var sideMovementSensitivityCoef : double = 0.3;
 private var movementMinima : double = 2.0;
 
 function Update () {
@@ -37,14 +42,26 @@ function Update () {
 		if(deltaV == 0) {
 			deltaV = kinectPoint.sw.bonePos[0,19].z;
 		}
+		if(deltaSR == 0) {
+			deltaSR = kinectPoint.sw.bonePos[0,19].x;
+		}
+		if(deltaSL == 0) {
+			deltaSL = kinectPoint.sw.bonePos[0,15].x;
+		}
 		if(initHandRight == 0) {
 			initHandRight = kinectPoint.sw.bonePos[0,11].z;
 		}
 		
 		// Assign movement vector
+		
+		
+		//	Debug.Log("" + kinectPoint.sw.bonePos[0,11].y + ", " + kinectPoint.sw.bonePos[0,16].y);
+		var tempDeltaX = (kinectPoint.sw.bonePos[0,15].x - deltaSL) + (kinectPoint.sw.bonePos[0,19].x - deltaSR);
+		tempDeltaX = tempDeltaX / sideMovementSensitivityCoef;
+		
 		var tempDeltaV = kinectPoint.sw.bonePos[0,19].z - deltaV;
 		tempDeltaV = tempDeltaV / movementSensitivityCoef;
-		directionVector = new Vector3(0, 0, tempDeltaV);
+		directionVector = new Vector3(tempDeltaX, 0, tempDeltaV);
 		
 		//Bend down
 		var deltaHandRight = kinectPoint.sw.bonePos[0,11].z - initHandRight;
