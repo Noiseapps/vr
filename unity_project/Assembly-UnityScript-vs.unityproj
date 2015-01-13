@@ -51,6 +51,7 @@
      <Compile Include="Assets\Script\CubeCollider.js" />
      <Compile Include="Assets\Script\CylinderCollider.js" />
      <Compile Include="Assets\Script\FPSInputController.js" />
+     <Compile Include="Assets\Script\FirstRoomLocker.js" />
      <Compile Include="Assets\Script\Flickering.js" />
      <Compile Include="Assets\Script\PlayerController.js" />
      <Compile Include="Assets\Script\Rotator.js" />
