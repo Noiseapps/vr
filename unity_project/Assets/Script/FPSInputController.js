@@ -7,7 +7,7 @@ var deltaSL : double;  // delta for side movement left
 var initHandRight : double;
 var handYPosPrevFrame : double = 0;
 private var isThrow : int = 0;
-private var hasKinect : int = 1;
+private var hasKinect : int = 0;
 private var initThrowYPos : double;
 private var initThrowTime : float;
 private var maxDelta : double = 0;

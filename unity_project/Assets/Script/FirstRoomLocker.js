@@ -8,7 +8,7 @@ function OnTriggerEnter (other : Collider){
 		Debug.Log(object);
 		Debug.Log("below an object in FPSInputController");
 		object.transform.position = Vector3(-2.5,0.7,0);
-		object.transform.eulerAngles = Vector3(0,0,0);
+		object.transform.eulerAngles = Vector3(0,90,0);
 		player = object.GetComponent(FPSInputController);
 		player.setOnlySideMove(1);
 	}

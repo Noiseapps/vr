@@ -7,7 +7,7 @@ function OnTriggerEnter (other : Collider){
 		var object : GameObject = GameObject.FindGameObjectWithTag("Player");
 		Debug.Log(object);
 		object.transform.position = Vector3(0,0.7,15);
-		object.transform.eulerAngles = Vector3(0,0,0);
+		object.transform.eulerAngles = Vector3(0,90,0);
 		player = object.GetComponent(FPSInputController);
 		player.setCanMove(0);
 	}
