@@ -9,8 +9,8 @@ public class PickupObject : MonoBehaviour {
 	public float smooth;
 	private bool grab;
 	private bool isThrow;
-	private bool hasKinect = true;
-	private double amount, speed;
+	private bool hasKinect = false;
+	private double amount, speed, spellAmount, spellSpeed;
 	private int throwFrame;
 //	AudioClip pick;
 
@@ -26,6 +26,11 @@ public class PickupObject : MonoBehaviour {
 		isThrow = true;
 		amount = mAmount;
 		speed = mSpeed;
+	}
+
+	public void setThrowSpellParams(double mAmount, double mSpeed){
+		spellAmount = mAmount;
+		spellSpeed = mSpeed;
 	}
 	
 	public void setNotThrow(){
@@ -78,8 +83,10 @@ public class PickupObject : MonoBehaviour {
 	}
 
 	public void forcePickup(Pickupable p) {
+		setGrab();
 		carrying = true;
 		carriedObject = p.gameObject;
+		Debug.Log (carriedObject);
 		p.gameObject.rigidbody.isKinematic = true;
 	}
 
@@ -90,8 +97,9 @@ public class PickupObject : MonoBehaviour {
 	}
 
 	void checkThrow(){
-		if (isThrow) {
-			throwObject ();
+		if (/*TEMP-->*/ /*isThrow || */Input.GetKeyDown(KeyCode.F)) {
+			//throwObject ();
+			throwSpell();
 		}
 	}
 
@@ -100,6 +108,17 @@ public class PickupObject : MonoBehaviour {
 		carriedObject.gameObject.rigidbody.isKinematic = false;
 		Vector3 throwDirection = Vector3.Scale (new Vector3(transform.forward.x, 1f, transform.forward.z), new Vector3((float)(750f/speed), (float)(500f*amount), (float)(750f/speed)));
 		Debug.Log ("Throw : " + throwDirection + " from speed: " + speed + ", amount: " + amount);
+		carriedObject.gameObject.rigidbody.AddForce(throwDirection);
+		carrying = false;
+		carriedObject = null;
+	}
+
+	void throwSpell() {
+		throwFrame = Time.frameCount;
+		carriedObject.gameObject.rigidbody.isKinematic = false;
+		Vector3 throwDirection = Vector3.Scale (new Vector3(1f, 1f, 1f), 
+		                                        new Vector3((float)spellSpeed, 0, 0));
+		//Debug.Log ("Throw : " + throwDirection + " from speed: " + speed + ", amount: " + amount);
 		carriedObject.gameObject.rigidbody.AddForce(throwDirection);
 		carrying = false;
 		carriedObject = null;

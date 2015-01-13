@@ -1,5 +1,6 @@
 #pragma strict
 private var player : FPSInputController;
+public var objectToGrabTag : String;
 
 function OnTriggerEnter (other : Collider){
 	if(other.tag.Equals("Player")){
@@ -10,5 +11,13 @@ function OnTriggerEnter (other : Collider){
 		object.transform.eulerAngles = Vector3(0,0,0);
 		player = object.GetComponent(FPSInputController);
 		player.setCanMove(0);
+		
+		var objectToGrab : GameObject = GameObject.FindGameObjectWithTag(objectToGrabTag);
+		var p : Pickupable = objectToGrab.GetComponent(Pickupable);
+		Debug.Log(p);
+		
+		var pickupObject : PickupObject = object.GetComponent(PickupObject);
+		pickupObject.setThrowSpellParams(0, 100);
+		pickupObject.forcePickup(p);
 	}
 }
