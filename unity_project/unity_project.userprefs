@@ -1,11 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\PickupObject.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\SpellLocker.js">
     <Files>
-      <File FileName="Assets\Script\FPSInputController.js" Line="28" Column="34" />
-      <File FileName="Assets\Standard Assets\PickupObject.cs" Line="100" Column="58" />
-      <File FileName="Assets\Script\CubeCollider.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\CylinderCollider.js" Line="1" Column="1" />
+      <File FileName="Assets\Script\SpellLocker.js" Line="3" Column="24" />
+      <File FileName="Assets\Script\FPSInputController.js" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

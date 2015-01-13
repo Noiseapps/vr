@@ -7,10 +7,11 @@ var deltaSL : double;  // delta for side movement left
 var initHandRight : double;
 var handYPosPrevFrame : double = 0;
 private var isThrow : int = 0;
-private var hasKinect : int = 1;
+private var hasKinect : int = 0;
 private var initThrowYPos : double;
 private var initThrowTime : float;
 private var maxDelta : double = 0;
+private var canMove : int = 1;
 function Awake () {
 	motor = GetComponent(CharacterMotor);
 	kinectPoint = this.GetComponent(KinectPointController);
@@ -36,6 +37,7 @@ private var sideMovementSensitivityCoef : double = 0.3;
 private var movementMinima : double = 2.0;
 
 function Update () {
+	if(canMove == 0) return;
 	var directionVector;
 	if(hasKinect == 1){
 		// Set initial points
@@ -131,8 +133,11 @@ function Update () {
 	motor.inputMoveDirection = transform.rotation * directionVector;
 }
 
-function OnDestroy(){
-	Debug.Log("max: " + maxDelta);
+function setCanMove(moves : int){
+	canMove = moves;
+	if(moves == 0){
+		motor.inputMoveDirection = Vector3(0,0,0);
+	}
 }
 
 
