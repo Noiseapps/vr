@@ -12,6 +12,7 @@ private var initThrowYPos : double;
 private var initThrowTime : float;
 private var maxDelta : double = 0;
 private var canMove : int = 1;
+private var onlySideMovement : int = 0;  
 function Awake () {
 	motor = GetComponent(CharacterMotor);
 	kinectPoint = this.GetComponent(KinectPointController);
@@ -63,6 +64,10 @@ function Update () {
 		
 		var tempDeltaV = kinectPoint.sw.bonePos[0,19].z - deltaV;
 		tempDeltaV = tempDeltaV / movementSensitivityCoef;
+		if(onlySideMovement == 1)
+		{
+			tempDeltaV = 0;
+		}
 		directionVector = new Vector3(tempDeltaX, 0, tempDeltaV);
 		
 		//Bend down
@@ -117,6 +122,10 @@ function Update () {
 		} else if(shoulderDiff > DIFF) {
 			rotateSpeed = -rotationConstant + shoulderDiff*rotationCoefficient; // should be value > 0
 		}
+		if(onlySideMovement == 1)
+		{
+		rotateSpeed = 0;
+		}
 		var rotVect = Vector3.up * Time.deltaTime * rotateSpeed;
 		transform.Rotate(rotVect);
 	} else {
@@ -138,6 +147,10 @@ function setCanMove(moves : int){
 	if(moves == 0){
 		motor.inputMoveDirection = Vector3(0,0,0);
 	}
+}
+
+function setOnlySideMove(sideMove : int){
+	onlySideMovement = sideMove;
 }
 
 

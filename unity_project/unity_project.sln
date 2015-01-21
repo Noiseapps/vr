@@ -29,10 +29,13 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																																GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																		GlobalSection(MonoDevelopProperties) = preSolution
 =======
 																																																																												GlobalSection(MonoDevelopProperties) = preSolution
 >>>>>>> szymon
+=======
+																																																																																			GlobalSection(MonoDevelopProperties) = preSolution
+>>>>>>> master
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

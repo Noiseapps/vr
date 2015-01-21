@@ -1,14 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\SpellLocker.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\FirstRoomLocker.js">
     <Files>
-      <File FileName="Assets\Script\FPSInputController.js" Line="147" Column="1" />
-      <File FileName="Assets\Standard Assets\PickupObject.cs" Line="114" Column="1" />
-      <File FileName="Assets\Script\CubeCollider.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\CylinderCollider.js" Line="1" Column="1" />
-      <File FileName="Assets\Standard Assets\Pickupable.cs" Line="1" Column="1" />
-      <File FileName="Assets\Standard Assets\FloorCollider.cs" Line="28" Column="49" />
-      <File FileName="Assets\Script\SpellLocker.js" Line="18" Column="71" />
+      <File FileName="Assets\Script\FPSInputController.js" Line="47" Column="4" />
+      <File FileName="Assets\Script\FirstRoomLocker.js" Line="5" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
