@@ -116,6 +116,8 @@ public class PickupObject : MonoBehaviour {
 	void throwSpell() {
 		throwFrame = Time.frameCount;
 		carriedObject.gameObject.rigidbody.isKinematic = false;
+		Pickupable p = carriedObject.GetComponent<Pickupable>();
+		p.playSound();
 		Vector3 throwDirection = Vector3.Scale (new Vector3(1f, 1f, 1f), 
 		                                        new Vector3((float)spellSpeed, 0, 0));
 		//Debug.Log ("Throw : " + throwDirection + " from speed: " + speed + ", amount: " + amount);
