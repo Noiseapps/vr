@@ -1,26 +1,10 @@
 ﻿<Properties>
-<<<<<<< HEAD
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\PickupObject.cs">
     <Files>
-      <File FileName="Assets\Standard Assets\Pickupable.cs" Line="8" Column="9" />
-      <File FileName="Assets\Script\FPSInputController.js" Line="47" Column="4" />
-      <File FileName="Assets\Script\FirstRoomLocker.js" Line="5" Column="33" />
-      <File FileName="Assets\Standard Assets\PickupObject.cs" Line="77" Column="22" />
-=======
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\CylinderCollider.js">
-    <Files>
-      <File FileName="Assets\Script\FPSInputController.js" Line="61" Column="48" />
-      <File FileName="Assets\Script\BounceUpAndDown.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\FirstRoomLocker.js" Line="30" Column="2" />
-      <File FileName="Assets\Script\RotateAndBounceLikeCrazy.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\SpellLocker.js" Line="1" Column="1" />
-      <File FileName="Assets\Script\CylinderCollider.js" Line="20" Column="38" />
-      <File FileName="Assets\Script\EnemyCollider.js" Line="43" Column="41" />
-      <File FileName="Assets\Standard Assets\PickupObject.cs" Line="116" Column="21" />
-      <File FileName="Assets\Standard Assets\FloorCollider.cs" Line="1" Column="1" />
->>>>>>> szymon_final
+      <File FileName="Assets\Script\Flickering.js" Line="21" Column="24" />
+      <File FileName="Assets\Script\FPSInputController.js" Line="1" Column="1" />
+      <File FileName="Assets\Standard Assets\PickupObject.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
