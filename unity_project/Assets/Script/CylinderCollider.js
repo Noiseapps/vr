@@ -48,6 +48,7 @@ function OnTriggerEnter (other : Collider){
 			//Debug.Log("counter > 5 ? : " + (cylinderCounter >= 5));
 			if(cylinderCounter >= 5) {
 				//box.renderer.enabled = true;
+				other.gameObject.SetActive(false);
 				box.transform.position = Vector3(-6, 1, -5.5);
 				
 				// leaving the room after completing the puzzle
