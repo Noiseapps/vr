@@ -11,13 +11,8 @@ function OnTriggerEnter (other : Collider){
 		object.transform.eulerAngles = Vector3(0,90,0);
 		player = object.GetComponent(FPSInputController);
 		player.setCanMove(0);
-		
-		var objectToGrab : GameObject = GameObject.FindGameObjectWithTag(objectToGrabTag);
-		var p : Pickupable = objectToGrab.GetComponent(Pickupable);
-		Debug.Log("Spell locker on trigger enter: " + p);
-		
-		var pickupObject : PickupObject = object.GetComponent(PickupObject);
-		pickupObject.setThrowSpellParams(0, 200);
-		pickupObject.forcePickup(p);
+		player.moveToSecondRoom();
+		var music : BackgroundSound = object.GetComponent(BackgroundSound);
+		music.playFireBall();
 	}
 }

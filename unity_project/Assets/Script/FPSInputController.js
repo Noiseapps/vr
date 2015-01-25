@@ -4,16 +4,24 @@ var pickupObject : PickupObject;
 var deltaV : double;
 var deltaSR : double;  // delta for side movement right
 var deltaSL : double;  // delta for side movement left
-var initHandRight : double;
 var handYPosPrevFrame : double = 0;
 private var isThrow : int = 0;
-private var hasKinect : int = 0;
+private var hasKinect : int = 1;
 private var initThrowYPos : double;
 private var initThrowTime : float;
-private var maxDelta : double = 0;
 private var canMove : int = 1;
 private var endOfGame : int = 0;
-private var onlySideMovement : int = 0;  
+private var isAfterFirstRoom : int = 0;
+private var onlySideMovement : int = 0;
+
+private var spellCast : int = 0;
+private var isSpellCharging : int = 0;
+private var spellThrowFrameStart : int = 0;
+
+private var handRightPrevFrame : float;
+private var handLeftPrevFrame : float;
+private var handRightInitFrame : float;
+private var handLeftInitFrame : float;
 function Awake () {
 	motor = GetComponent(CharacterMotor);
 	kinectPoint = this.GetComponent(KinectPointController);
@@ -24,7 +32,8 @@ function Start () {
 	deltaV = kinectPoint.sw.bonePos[0,19].z;
 	deltaSR = kinectPoint.sw.bonePos[0,19].x;
 	deltaSL = kinectPoint.sw.bonePos[0,15].x;
-	initHandRight = kinectPoint.sw.bonePos[0,11].z;
+	handRightPrevFrame = kinectPoint.sw.bonePos[0,11].z;
+	handLeftPrevFrame = kinectPoint.sw.bonePos[0,7].z;
 }
 
 private var THROW_THR = 0.1;
@@ -44,7 +53,6 @@ function Update () {
 		transform.Translate(Vector3(1,0,0) * Time.deltaTime, Space.World);
 		return;
 	}
-	if(canMove == 0) return;
 	var directionVector;
 	if(hasKinect == 1){
 		// Set initial points
@@ -57,10 +65,6 @@ function Update () {
 		if(deltaSL == 0) {
 			deltaSL = kinectPoint.sw.bonePos[0,15].x;
 		}
-		if(initHandRight == 0) {
-			initHandRight = kinectPoint.sw.bonePos[0,11].z;
-		}
-		
 		// Gesture to leave first room
 		if(onlySideMovement == 1)
 		{
@@ -77,11 +81,6 @@ function Update () {
 				setOnlySideMove(0);
 			}
 		}
-		
-		// Assign movement vector
-		
-		
-		//	Debug.Log("" + kinectPoint.sw.bonePos[0,11].y + ", " + kinectPoint.sw.bonePos[0,16].y);
 		var tempDeltaX = (kinectPoint.sw.bonePos[0,15].x - deltaSL) + (kinectPoint.sw.bonePos[0,19].x - deltaSR);
 		tempDeltaX = tempDeltaX / sideMovementSensitivityCoef;
 		
@@ -89,49 +88,97 @@ function Update () {
 		tempDeltaV = tempDeltaV / movementSensitivityCoef;
 		if(onlySideMovement == 1)
 		{
-			tempDeltaV = 0;
+			tempDeltaV = 0; 
 		}
 		directionVector = new Vector3(tempDeltaX, 0, tempDeltaV);
 		
-		//Bend down
-		var deltaHandRight = kinectPoint.sw.bonePos[0,11].z - initHandRight;
-	//	Debug.Log("" + kinectPoint.sw.bonePos[0,11].y + ", " + kinectPoint.sw.bonePos[0,16].y);
-		if(deltaHandRight > GRAB2){
-			pickupObject.setGrab();
-		} else if( deltaHandRight < GRAB2 && (kinectPoint.sw.bonePos[0,11].y < kinectPoint.sw.bonePos[0,16].y)){
-			pickupObject.setNotGrab();
-		}
-		// Throwing
-		var deltaThrow = 0.0;
-		var throwTime = 0.0;
-		var throwAmount = 0.0;
-		if(handYPosPrevFrame != 0){
-			deltaThrow = kinectPoint.sw.bonePos[0,11].y - handYPosPrevFrame;
-			if(deltaThrow > maxDelta) maxDelta = deltaThrow;
-			handYPosPrevFrame = kinectPoint.sw.bonePos[0,11].y;
-//			Debug.Log(deltaThrow);
+//		Debug.Log(spellCast + " | " + isSpellCharging + " | " + isAfterFirstRoom);
+		
+		if(isAfterFirstRoom == 1){
+			var wristLeft : Vector3 = kinectPoint.sw.bonePos[0,7];
+			var wristRight : Vector3 = kinectPoint.sw.bonePos[0,11];
+			var hip : Vector3 = kinectPoint.sw.bonePos[0,17];
+			Debug.Log(wristRight + " : " + wristLeft + " : " + hip);
+//			Debug.Log(spellCast + " ; " + isSpellCharging);
+//			Debug.Log((wristRight.x > hip.x) + " | " + (wristLeft.x > hip.x) + " | " + (wristRight.z > hip.z) + " | " + (wristLeft.z > hip.z));
+			if(spellCast == 0 && 
+			wristRight.x > hip.x &&
+			wristLeft.x > hip.x && 
+			wristRight.z <= hip.z && 
+			wristLeft.z <= hip.z){
+//				Debug.Log(kinectPoint.sw.bonePos[0,11].x + ", " + kinectPoint.sw.bonePos[0,17].x + " | " + kinectPoint.sw.bonePos[0,7].x + ", " + kinectPoint.sw.bonePos[0,17].x);
+//				Debug.Log("I'm a Fireball");
+				spellCast = 1;
+				
+				handRightPrevFrame = wristRight.z;
+				handLeftPrevFrame = wristLeft.z;
+				handRightInitFrame = wristRight.z;
+				handLeftInitFrame = wristLeft.z;
+				
+//				Debug.Log(handRightPrevFrame + ", " + handLeftPrevFrame + " | " + handRightInitFrame + ", " + handLeftInitFrame);
+				var fireball : GameObject = GameObject.FindGameObjectWithTag("Flame");
+				var pick : Pickupable = fireball.GetComponent(Pickupable);
+				Debug.Log(pick);
+				
+//				pickupObject.setThrowSpellParams(0, 100);
+				pickupObject.forcePickup(pick);
+				pickupObject.setSpellStopThrow();
+			} 
+			if(spellCast == 1){
+				var rightHandChange : float = wristRight.z - handRightPrevFrame;
+				var leftHandChange : float = wristLeft.z - handLeftPrevFrame;
+				handRightPrevFrame = wristRight.z;
+				handLeftPrevFrame = wristLeft.z;
+				if(isSpellCharging == 0 && rightHandChange > THROW_THR && leftHandChange > THROW_THR){
+					isSpellCharging = 1;
+					handRightPrevFrame = wristRight.z;
+					handLeftPrevFrame = wristLeft.z;
+					spellThrowFrameStart = Time.frameCount;
+//					Debug.Log("Spell is charging");
+				} 
+//				Debug.Log(rightHandChange + " {} " + leftHandChange);
+				if(isSpellCharging == 1 && (Mathf.Abs(rightHandChange) < THROW_THR && Mathf.Abs(leftHandChange) < THROW_THR)){
+					var spellThrowFrameStop : int = Time.frameCount;
+					var depthChangeDistance : float = ((wristRight.z - handRightInitFrame) + (wristLeft.z - handLeftInitFrame))/2;
+					var frames : int = spellThrowFrameStop - spellThrowFrameStart;
+					var speed = depthChangeDistance / frames;
+					Debug.Log(depthChangeDistance + " | " + frames); 
+					Debug.Log("KAMEHAMEHAMEHAAA with speed : " + (speed * 1000));
+					pickupObject.setThrowSpell(speed * 1000);
+					isSpellCharging = 0;
+					spellCast = 0;
+				}
+			}		
 		} else {
-			handYPosPrevFrame = kinectPoint.sw.bonePos[0,11].y;
-		}
-		if(isThrow == 0 && deltaThrow > THROW_THR){
-//			Debug.Log("Start check for throw");
-			isThrow = 1;
-			initThrowYPos = kinectPoint.sw.bonePos[0,11].y;
-			initThrowTime = Time.frameCount;
-			throwTime = 0.0;
-			throwAmount = 0.0;
-		} else if (isThrow == 1 && deltaThrow <= THROW_THR){
-//			Debug.Log("Stop check for Throw");
-			isThrow = 0;
-			throwAmount = kinectPoint.sw.bonePos[0,11].y - initThrowYPos;
-			throwTime = Time.frameCount - initThrowTime;
-		}
-		if(throwAmount > 0.0 && throwTime > 0.0){
-			pickupObject.setThrow(throwAmount, throwTime);
-			throwTime = 0.0;
-			throwAmount = 0.0;
-		} else {
-			pickupObject.setNotThrow();
+			// Throwing ball
+			var deltaThrow = 0.0;
+			var throwTime = 0.0;
+			var throwAmount = 0.0;
+			if(handYPosPrevFrame != 0){
+				deltaThrow = kinectPoint.sw.bonePos[0,11].y - handYPosPrevFrame;
+				handYPosPrevFrame = kinectPoint.sw.bonePos[0,11].y;
+	//			Debug.Log(deltaThrow);
+			} else {
+				handYPosPrevFrame = kinectPoint.sw.bonePos[0,11].y;
+			}
+			if(isThrow == 0 && deltaThrow > THROW_THR){
+				isThrow = 1;
+				initThrowYPos = kinectPoint.sw.bonePos[0,11].y;
+				initThrowTime = Time.frameCount;
+				throwTime = 0.0;
+				throwAmount = 0.0;
+			} else if (isThrow == 1 && deltaThrow <= THROW_THR){
+				isThrow = 0;
+				throwAmount = kinectPoint.sw.bonePos[0,11].y - initThrowYPos;
+				throwTime = Time.frameCount - initThrowTime;
+			}
+			if(throwAmount > 0.0 && throwTime > 0.0){
+				pickupObject.setThrow(throwAmount, throwTime);
+				throwTime = 0.0;
+				throwAmount = 0.0;
+			} else {
+				pickupObject.setNotThrow();
+			}
 		}
 		
 		// Rotate
@@ -145,11 +192,12 @@ function Update () {
 		} else if(shoulderDiff > DIFF) {
 			rotateSpeed = -rotationConstant + shoulderDiff*rotationCoefficient; // should be value > 0
 		}
-		if(onlySideMovement == 1)
+		if(onlySideMovement == 1 || canMove == 0)
 		{
 		rotateSpeed = 0;
 		}
 		var rotVect = Vector3.up * Time.deltaTime * rotateSpeed;
+		
 		transform.Rotate(rotVect);
 	} else {
 		directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -161,7 +209,8 @@ function Update () {
 		directionLength = directionLength * directionLength;
 		directionVector = directionVector * (directionLength * movementSlowDownCoef);
 	}
-
+	
+	if(canMove == 0) return;
 	motor.inputMoveDirection = transform.rotation * directionVector;
 }
 
@@ -178,6 +227,10 @@ function setEndOfGame() {
 
 function setOnlySideMove(sideMove : int){
 	onlySideMovement = sideMove;
+}
+
+function moveToSecondRoom(){
+	isAfterFirstRoom = 1;
 }
 
 

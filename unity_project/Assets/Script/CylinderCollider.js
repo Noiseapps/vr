@@ -2,10 +2,14 @@
 
 var door : String = "";
 static var cylinderCounter : int = 0;
-private var player : FPSInputController;
 var box : GameObject = null;
+var player : FPSInputController;
 private var fallDown : int = 0;
 private var cylindersHit = new Array();
+
+function Awake() {
+	player = GameObject.FindWithTag("Player").GetComponent(FPSInputController);
+}
 
 function Update() {
 	/*if(fallDown == 1) {
@@ -52,8 +56,6 @@ function OnTriggerEnter (other : Collider){
 				object.transform.eulerAngles = Vector3(0,180,0);
 				player = object.GetComponent(FPSInputController);
 				player.setOnlySideMove(0);
-				// we left the room
-				
 				Debug.Log("moving the box");
 			}			
 			

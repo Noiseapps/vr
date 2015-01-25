@@ -38,7 +38,10 @@ function OnTriggerEnter (other : Collider){
 		Debug.Log("Flame collided with cube");
 		
 		this.gameObject.SetActive(false);
-		other.gameObject.SetActive(false);
+//		other.gameObject.SetActive(false);
+
+		other.gameObject.transform.position = Vector3(-1,1,20);
+		other.gameObject.rigidbody.velocity = Vector3.zero;
 		
 		if(this.gameObject.name == "Enemy1") {
 			e2 = GameObject.Find("Enemy2");
