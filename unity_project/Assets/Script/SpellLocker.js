@@ -14,10 +14,10 @@ function OnTriggerEnter (other : Collider){
 		
 		var objectToGrab : GameObject = GameObject.FindGameObjectWithTag(objectToGrabTag);
 		var p : Pickupable = objectToGrab.GetComponent(Pickupable);
-		Debug.Log(p);
+		Debug.Log("Spell locker on trigger enter: " + p);
 		
 		var pickupObject : PickupObject = object.GetComponent(PickupObject);
-		pickupObject.setThrowSpellParams(0, 100);
+		pickupObject.setThrowSpellParams(0, 200);
 		pickupObject.forcePickup(p);
 	}
 }

@@ -12,6 +12,7 @@ private var initThrowYPos : double;
 private var initThrowTime : float;
 private var maxDelta : double = 0;
 private var canMove : int = 1;
+private var endOfGame : int = 0;
 private var onlySideMovement : int = 0;  
 function Awake () {
 	motor = GetComponent(CharacterMotor);
@@ -38,6 +39,11 @@ private var sideMovementSensitivityCoef : double = 0.3;
 private var movementMinima : double = 2.0;
 
 function Update () {
+	if(endOfGame == 1) {
+		Debug.Log("endOfGame");
+		transform.Translate(Vector3(1,0,0) * Time.deltaTime, Space.World);
+		return;
+	}
 	if(canMove == 0) return;
 	var directionVector;
 	if(hasKinect == 1){
@@ -147,6 +153,10 @@ function setCanMove(moves : int){
 	if(moves == 0){
 		motor.inputMoveDirection = Vector3(0,0,0);
 	}
+}
+
+function setEndOfGame() {
+	endOfGame = 1;
 }
 
 function setOnlySideMove(sideMove : int){
