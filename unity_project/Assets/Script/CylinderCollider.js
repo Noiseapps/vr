@@ -2,6 +2,7 @@
 
 var door : String = "";
 static var cylinderCounter : int = 0;
+private var player : FPSInputController;
 var box : GameObject = null;
 private var fallDown : int = 0;
 private var cylindersHit = new Array();
@@ -44,6 +45,15 @@ function OnTriggerEnter (other : Collider){
 			if(cylinderCounter >= 5) {
 				//box.renderer.enabled = true;
 				box.transform.position = Vector3(-6, 1, -5.5);
+				
+				// leaving the room after completing the puzzle
+				var object : GameObject = GameObject.FindGameObjectWithTag("Player");
+				object.transform.position = Vector3(-6,0.7,0);
+				object.transform.eulerAngles = Vector3(0,180,0);
+				player = object.GetComponent(FPSInputController);
+				player.setOnlySideMove(0);
+				// we left the room
+				
 				Debug.Log("moving the box");
 			}			
 			

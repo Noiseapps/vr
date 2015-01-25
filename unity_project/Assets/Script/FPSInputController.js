@@ -12,6 +12,7 @@ private var initThrowYPos : double;
 private var initThrowTime : float;
 private var maxDelta : double = 0;
 private var canMove : int = 1;
+private var endOfGame : int = 0;
 private var onlySideMovement : int = 0;  
 function Awake () {
 	motor = GetComponent(CharacterMotor);
@@ -38,6 +39,11 @@ private var sideMovementSensitivityCoef : double = 0.3;
 private var movementMinima : double = 2.0;
 
 function Update () {
+	if(endOfGame == 1) {
+		Debug.Log("endOfGame");
+		transform.Translate(Vector3(1,0,0) * Time.deltaTime, Space.World);
+		return;
+	}
 	if(canMove == 0) return;
 	var directionVector;
 	if(hasKinect == 1){
@@ -53,6 +59,23 @@ function Update () {
 		}
 		if(initHandRight == 0) {
 			initHandRight = kinectPoint.sw.bonePos[0,11].z;
+		}
+		
+		// Gesture to leave first room
+		if(onlySideMovement == 1)
+		{
+			if(kinectPoint.sw.bonePos[0,11].y > kinectPoint.sw.bonePos[0,3].y && kinectPoint.sw.bonePos[0,7].y > kinectPoint.sw.bonePos[0,3].y)
+			{
+				// remember to drop the ball before leaving !
+				var object : GameObject = GameObject.FindGameObjectWithTag("Player");
+				var objectToGrab : GameObject = GameObject.FindGameObjectWithTag("Ball1");
+				var p : Pickupable = objectToGrab.GetComponent(Pickupable);
+				pickupObject = object.GetComponent(PickupObject);
+				pickupObject.dropAndLeave();
+				object.transform.position = Vector3(-6,0.7,0);
+				object.transform.eulerAngles = Vector3(0,180,0);
+				setOnlySideMove(0);
+			}
 		}
 		
 		// Assign movement vector
@@ -147,6 +170,10 @@ function setCanMove(moves : int){
 	if(moves == 0){
 		motor.inputMoveDirection = Vector3(0,0,0);
 	}
+}
+
+function setEndOfGame() {
+	endOfGame = 1;
 }
 
 function setOnlySideMove(sideMove : int){
