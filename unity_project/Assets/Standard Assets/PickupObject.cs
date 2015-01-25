@@ -129,4 +129,9 @@ public class PickupObject : MonoBehaviour {
 		carriedObject.gameObject.rigidbody.isKinematic = false;
 		carriedObject = null;
 	}
+
+	public void dropAndLeave() {
+		carrying = false;
+		carriedObject = null;
+	}
 }

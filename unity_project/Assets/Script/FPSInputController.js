@@ -61,6 +61,23 @@ function Update () {
 			initHandRight = kinectPoint.sw.bonePos[0,11].z;
 		}
 		
+		// Gesture to leave first room
+		if(onlySideMovement == 1)
+		{
+			if(kinectPoint.sw.bonePos[0,11].y > kinectPoint.sw.bonePos[0,3].y && kinectPoint.sw.bonePos[0,7].y > kinectPoint.sw.bonePos[0,3].y)
+			{
+				// remember to drop the ball before leaving !
+				var object : GameObject = GameObject.FindGameObjectWithTag("Player");
+				var objectToGrab : GameObject = GameObject.FindGameObjectWithTag("Ball1");
+				var p : Pickupable = objectToGrab.GetComponent(Pickupable);
+				pickupObject = object.GetComponent(PickupObject);
+				pickupObject.dropAndLeave();
+				object.transform.position = Vector3(-6,0.7,0);
+				object.transform.eulerAngles = Vector3(0,180,0);
+				setOnlySideMove(0);
+			}
+		}
+		
 		// Assign movement vector
 		
 		
