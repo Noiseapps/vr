@@ -3,8 +3,13 @@
 var door : String = "";
 static var cylinderCounter : int = 0;
 var box : GameObject = null;
+var player : FPSInputController;
 private var fallDown : int = 0;
 private var cylindersHit = new Array();
+
+function Awake() {
+	player = GameObject.FindWithTag("Player").GetComponent(FPSInputController);
+}
 
 function Update() {
 	/*if(fallDown == 1) {
@@ -44,6 +49,7 @@ function OnTriggerEnter (other : Collider){
 			if(cylinderCounter >= 5) {
 				//box.renderer.enabled = true;
 				box.transform.position = Vector3(-6, 1, -5.5);
+				player.moveToSecondRoom();
 				Debug.Log("moving the box");
 			}			
 			

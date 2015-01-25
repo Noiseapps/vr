@@ -1,0 +1,443 @@
+diff --git a/unity_project/Assets/Script/CylinderCollider.js b/unity_project/Assets/Script/CylinderCollider.js
+index 2ba8be1..ff8f47c 100644
+--- a/unity_project/Assets/Script/CylinderCollider.js
++++ b/unity_project/Assets/Script/CylinderCollider.js
+@@ -3,9 +3,14 @@
+ var door : String = "";
+ static var cylinderCounter : int = 0;
+ var box : GameObject = null;
++var player : FPSInputController;
+ private var fallDown : int = 0;
+ private var cylindersHit = new Array();
+ 
++function Awake() {
++	player = GameObject.FindWithTag("Player").GetComponent(FPSInputController);
++}
++
+ function Update() {
+ 	/*if(fallDown == 1) {
+ 		var step = 0.2 * Time.deltaTime;
+@@ -44,6 +49,7 @@ function OnTriggerEnter (other : Collider){
+ 			if(cylinderCounter >= 5) {
+ 				//box.renderer.enabled = true;
+ 				box.transform.position = Vector3(-6, 1, -5.5);
++				player.moveToSecondRoom();
+ 				Debug.Log("moving the box");
+ 			}			
+ 			
+diff --git a/unity_project/Assets/Script/FPSInputController.js b/unity_project/Assets/Script/FPSInputController.js
+index 680acb7..53c41c3 100644
+--- a/unity_project/Assets/Script/FPSInputController.js
++++ b/unity_project/Assets/Script/FPSInputController.js
+@@ -4,15 +4,24 @@ var pickupObject : PickupObject;
+ var deltaV : double;
+ var deltaSR : double;  // delta for side movement right
+ var deltaSL : double;  // delta for side movement left
+-var initHandRight : double;
+ var handYPosPrevFrame : double = 0;
+ private var isThrow : int = 0;
+-private var hasKinect : int = 0;
++private var hasKinect : int = 1;
+ private var initThrowYPos : double;
+ private var initThrowTime : float;
+-private var maxDelta : double = 0;
+ private var canMove : int = 1;
+-private var onlySideMovement : int = 0;  
++private var isAfterFirstRoom : int = 0;
++private var onlySideMovement : int = 0;
++
++private var spellCast : int = 0;
++private var isSpellCharging : int = 0;
++private var spellThrowFrameStart : int = 0;
++
++private var handRightPrevFrame : float;
++private var handLeftPrevFrame : float;
++private var handRightInitFrame : float;
++private var handLeftInitFrame : float;
++
+ function Awake () {
+ 	motor = GetComponent(CharacterMotor);
+ 	kinectPoint = this.GetComponent(KinectPointController);
+@@ -23,7 +32,8 @@ function Start () {
+ 	deltaV = kinectPoint.sw.bonePos[0,19].z;
+ 	deltaSR = kinectPoint.sw.bonePos[0,19].x;
+ 	deltaSL = kinectPoint.sw.bonePos[0,15].x;
+-	initHandRight = kinectPoint.sw.bonePos[0,11].z;
++	handRightPrevFrame = kinectPoint.sw.bonePos[0,11].z;
++	handLeftPrevFrame = kinectPoint.sw.bonePos[0,7].z;
+ }
+ 
+ private var THROW_THR = 0.1;
+@@ -38,7 +48,6 @@ private var sideMovementSensitivityCoef : double = 0.3;
+ private var movementMinima : double = 2.0;
+ 
+ function Update () {
+-	if(canMove == 0) return;
+ 	var directionVector;
+ 	if(hasKinect == 1){
+ 		// Set initial points
+@@ -51,14 +60,7 @@ function Update () {
+ 		if(deltaSL == 0) {
+ 			deltaSL = kinectPoint.sw.bonePos[0,15].x;
+ 		}
+-		if(initHandRight == 0) {
+-			initHandRight = kinectPoint.sw.bonePos[0,11].z;
+-		}
+ 		
+-		// Assign movement vector
+-		
+-		
+-		//	Debug.Log("" + kinectPoint.sw.bonePos[0,11].y + ", " + kinectPoint.sw.bonePos[0,16].y);
+ 		var tempDeltaX = (kinectPoint.sw.bonePos[0,15].x - deltaSL) + (kinectPoint.sw.bonePos[0,19].x - deltaSR);
+ 		tempDeltaX = tempDeltaX / sideMovementSensitivityCoef;
+ 		
+@@ -66,49 +68,97 @@ function Update () {
+ 		tempDeltaV = tempDeltaV / movementSensitivityCoef;
+ 		if(onlySideMovement == 1)
+ 		{
+-			tempDeltaV = 0;
++			tempDeltaV = 0; 
+ 		}
+ 		directionVector = new Vector3(tempDeltaX, 0, tempDeltaV);
+ 		
+-		//Bend down
+-		var deltaHandRight = kinectPoint.sw.bonePos[0,11].z - initHandRight;
+-	//	Debug.Log("" + kinectPoint.sw.bonePos[0,11].y + ", " + kinectPoint.sw.bonePos[0,16].y);
+-		if(deltaHandRight > GRAB2){
+-			pickupObject.setGrab();
+-		} else if( deltaHandRight < GRAB2 && (kinectPoint.sw.bonePos[0,11].y < kinectPoint.sw.bonePos[0,16].y)){
+-			pickupObject.setNotGrab();
+-		}
+-		// Throwing
+-		var deltaThrow = 0.0;
+-		var throwTime = 0.0;
+-		var throwAmount = 0.0;
+-		if(handYPosPrevFrame != 0){
+-			deltaThrow = kinectPoint.sw.bonePos[0,11].y - handYPosPrevFrame;
+-			if(deltaThrow > maxDelta) maxDelta = deltaThrow;
+-			handYPosPrevFrame = kinectPoint.sw.bonePos[0,11].y;
+-//			Debug.Log(deltaThrow);
+-		} else {
+-			handYPosPrevFrame = kinectPoint.sw.bonePos[0,11].y;
+-		}
+-		if(isThrow == 0 && deltaThrow > THROW_THR){
+-//			Debug.Log("Start check for throw");
+-			isThrow = 1;
+-			initThrowYPos = kinectPoint.sw.bonePos[0,11].y;
+-			initThrowTime = Time.frameCount;
+-			throwTime = 0.0;
+-			throwAmount = 0.0;
+-		} else if (isThrow == 1 && deltaThrow <= THROW_THR){
+-//			Debug.Log("Stop check for Throw");
+-			isThrow = 0;
+-			throwAmount = kinectPoint.sw.bonePos[0,11].y - initThrowYPos;
+-			throwTime = Time.frameCount - initThrowTime;
+-		}
+-		if(throwAmount > 0.0 && throwTime > 0.0){
+-			pickupObject.setThrow(throwAmount, throwTime);
+-			throwTime = 0.0;
+-			throwAmount = 0.0;
++//		Debug.Log(spellCast + " | " + isSpellCharging + " | " + isAfterFirstRoom);
++		
++		if(isAfterFirstRoom == 1){
++			var wristLeft : Vector3 = kinectPoint.sw.bonePos[0,7];
++			var wristRight : Vector3 = kinectPoint.sw.bonePos[0,11];
++			var hip : Vector3 = kinectPoint.sw.bonePos[0,17];
++			Debug.Log(wristRight + " : " + wristLeft + " : " + hip);
++			Debug.Log(spellCast + " ; " + isSpellCharging);
++			Debug.Log((wristRight.x > hip.x) + " | " + (wristLeft.x > hip.x) + " | " + (wristRight.z > hip.z) + " | " + (wristLeft.z > hip.z));
++			if(spellCast == 0 && 
++			wristRight.x > hip.x &&
++			wristLeft.x > hip.x && 
++			wristRight.z > hip.z && 
++			wristLeft.z > hip.z){
++//				Debug.Log(kinectPoint.sw.bonePos[0,11].x + ", " + kinectPoint.sw.bonePos[0,17].x + " | " + kinectPoint.sw.bonePos[0,7].x + ", " + kinectPoint.sw.bonePos[0,17].x);
++//				Debug.Log("I'm a Fireball");
++				spellCast = 1;
++				
++				handRightPrevFrame = wristRight.z;
++				handLeftPrevFrame = wristLeft.z;
++				handRightInitFrame = wristRight.z;
++				handLeftInitFrame = wristLeft.z;
++				
++//				Debug.Log(handRightPrevFrame + ", " + handLeftPrevFrame + " | " + handRightInitFrame + ", " + handLeftInitFrame);
++				var objectToGrab : GameObject = GameObject.FindGameObjectWithTag("Flame");
++				var p : Pickupable = objectToGrab.GetComponent(Pickupable);
++				Debug.Log(p);
++				
++//				pickupObject.setThrowSpellParams(0, 100);
++				pickupObject.forcePickup(p);
++				pickupObject.setSpellStopThrow();
++			} 
++			if(spellCast == 1){
++				var rightHandChange : float = wristRight.z - handRightPrevFrame;
++				var leftHandChange : float = wristLeft.z - handLeftPrevFrame;
++				handRightPrevFrame = wristRight.z;
++				handLeftPrevFrame = wristLeft.z;
++				if(isSpellCharging == 0 && rightHandChange > THROW_THR && leftHandChange > THROW_THR){
++					isSpellCharging = 1;
++					handRightPrevFrame = wristRight.z;
++					handLeftPrevFrame = wristLeft.z;
++					spellThrowFrameStart = Time.frameCount;
++//					Debug.Log("Spell is charging");
++				} 
++//				Debug.Log(rightHandChange + " {} " + leftHandChange);
++				if(isSpellCharging == 1 && (Mathf.Abs(rightHandChange) < THROW_THR && Mathf.Abs(leftHandChange) < THROW_THR)){
++					var spellThrowFrameStop : int = Time.frameCount;
++					var depthChangeDistance : float = ((wristRight.z - handRightInitFrame) + (wristLeft.z - handLeftInitFrame))/2;
++					var frames : int = spellThrowFrameStop - spellThrowFrameStart;
++					var speed = depthChangeDistance / frames;
++					Debug.Log(depthChangeDistance + " | " + frames); 
++					Debug.Log("KAMEHAMEHAMEHAAA with speed : " + (speed * 1000));
++					pickupObject.setThrowSpell(speed * 1000);
++					isSpellCharging = 0;
++					spellCast = 0;
++				}
++			}		
+ 		} else {
+-			pickupObject.setNotThrow();
++			// Throwing ball
++			var deltaThrow = 0.0;
++			var throwTime = 0.0;
++			var throwAmount = 0.0;
++			if(handYPosPrevFrame != 0){
++				deltaThrow = kinectPoint.sw.bonePos[0,11].y - handYPosPrevFrame;
++				handYPosPrevFrame = kinectPoint.sw.bonePos[0,11].y;
++	//			Debug.Log(deltaThrow);
++			} else {
++				handYPosPrevFrame = kinectPoint.sw.bonePos[0,11].y;
++			}
++			if(isThrow == 0 && deltaThrow > THROW_THR){
++				isThrow = 1;
++				initThrowYPos = kinectPoint.sw.bonePos[0,11].y;
++				initThrowTime = Time.frameCount;
++				throwTime = 0.0;
++				throwAmount = 0.0;
++			} else if (isThrow == 1 && deltaThrow <= THROW_THR){
++				isThrow = 0;
++				throwAmount = kinectPoint.sw.bonePos[0,11].y - initThrowYPos;
++				throwTime = Time.frameCount - initThrowTime;
++			}
++			if(throwAmount > 0.0 && throwTime > 0.0){
++				pickupObject.setThrow(throwAmount, throwTime);
++				throwTime = 0.0;
++				throwAmount = 0.0;
++			} else {
++				pickupObject.setNotThrow();
++			}
+ 		}
+ 		
+ 		// Rotate
+@@ -122,11 +172,12 @@ function Update () {
+ 		} else if(shoulderDiff > DIFF) {
+ 			rotateSpeed = -rotationConstant + shoulderDiff*rotationCoefficient; // should be value > 0
+ 		}
+-		if(onlySideMovement == 1)
++		if(onlySideMovement == 1 || canMove == 0)
+ 		{
+ 		rotateSpeed = 0;
+ 		}
+ 		var rotVect = Vector3.up * Time.deltaTime * rotateSpeed;
++		
+ 		transform.Rotate(rotVect);
+ 	} else {
+ 		directionVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+@@ -138,7 +189,8 @@ function Update () {
+ 		directionLength = directionLength * directionLength;
+ 		directionVector = directionVector * (directionLength * movementSlowDownCoef);
+ 	}
+-
++	
++	if(canMove == 0) return;
+ 	motor.inputMoveDirection = transform.rotation * directionVector;
+ }
+ 
+@@ -153,6 +205,10 @@ function setOnlySideMove(sideMove : int){
+ 	onlySideMovement = sideMove;
+ }
+ 
++function moveToSecondRoom(){
++	isAfterFirstRoom = 1;
++}
++
+ 
+ @script RequireComponent (CharacterMotor)
+ @script RequireComponent (KinectPointController)
+diff --git a/unity_project/Assets/Script/SpellLocker.js b/unity_project/Assets/Script/SpellLocker.js
+index 85a09b0..0b62cce 100644
+--- a/unity_project/Assets/Script/SpellLocker.js
++++ b/unity_project/Assets/Script/SpellLocker.js
+@@ -11,13 +11,14 @@ function OnTriggerEnter (other : Collider){
+ 		object.transform.eulerAngles = Vector3(0,90,0);
+ 		player = object.GetComponent(FPSInputController);
+ 		player.setCanMove(0);
++		player.moveToSecondRoom();
+ 		
+-		var objectToGrab : GameObject = GameObject.FindGameObjectWithTag(objectToGrabTag);
+-		var p : Pickupable = objectToGrab.GetComponent(Pickupable);
+-		Debug.Log(p);
+-		
+-		var pickupObject : PickupObject = object.GetComponent(PickupObject);
+-		pickupObject.setThrowSpellParams(0, 100);
+-		pickupObject.forcePickup(p);
++//		var objectToGrab : GameObject = GameObject.FindGameObjectWithTag(objectToGrabTag);
++//		var p : Pickupable = objectToGrab.GetComponent(Pickupable);
++//		Debug.Log(p);
++//		
++//		var pickupObject : PickupObject = object.GetComponent(PickupObject);
++//		pickupObject.setThrowSpellParams(0, 100);
++//		pickupObject.forcePickup(p);
+ 	}
+ }
+diff --git a/unity_project/Assets/Standard Assets/PickupObject.cs b/unity_project/Assets/Standard Assets/PickupObject.cs
+index f45a00b..8c92f05 100644
+--- a/unity_project/Assets/Standard Assets/PickupObject.cs	
++++ b/unity_project/Assets/Standard Assets/PickupObject.cs	
+@@ -9,7 +9,8 @@ public class PickupObject : MonoBehaviour {
+ 	public float smooth;
+ 	private bool grab;
+ 	private bool isThrow;
+-	private bool hasKinect = false;
++	private bool isSpellThrown;
++	private bool hasKinect = true;
+ 	private double amount, speed, spellAmount, spellSpeed;
+ 	private int throwFrame;
+ //	AudioClip pick;
+@@ -32,6 +33,15 @@ public class PickupObject : MonoBehaviour {
+ 		spellAmount = mAmount;
+ 		spellSpeed = mSpeed;
+ 	}
++
++	public void setThrowSpell(double speed){
++		isSpellThrown = true;
++		spellSpeed = speed;
++	}
++
++	public void setSpellStopThrow(){
++		isSpellThrown = false;
++	}
+ 	
+ 	public void setNotThrow(){
+ 		isThrow = false;
+@@ -83,11 +93,16 @@ public class PickupObject : MonoBehaviour {
+ 	}
+ 
+ 	public void forcePickup(Pickupable p) {
++		Debug.Log("PICKUP DAT BIATCH");
+ 		setGrab();
+ 		carrying = true;
+ 		carriedObject = p.gameObject;
+ 		Debug.Log (carriedObject);
+-		p.gameObject.rigidbody.isKinematic = true;
++		
++		carriedObject.gameObject.rigidbody.isKinematic = false;
++		carriedObject.gameObject.rigidbody.transform.position = new Vector3(1.7f, 1.3f, 17f);
++		carriedObject.gameObject.rigidbody.velocity = Vector3.zero;
++		carriedObject.gameObject.rigidbody.isKinematic = true;
+ 	}
+ 
+ 	void checkDrop() {
+@@ -97,10 +112,8 @@ public class PickupObject : MonoBehaviour {
+ 	}
+ 
+ 	void checkThrow(){
+-		if (/*TEMP-->*/ /*isThrow || */Input.GetKeyDown(KeyCode.F)) {
+-			//throwObject ();
+-			throwSpell();
+-		}
++		if (isThrow) throwObject ();
++		else if (isSpellThrown) throwSpell();
+ 	}
+ 
+ 	void throwObject(){
+@@ -115,15 +128,17 @@ public class PickupObject : MonoBehaviour {
+ 
+ 	void throwSpell() {
+ 		throwFrame = Time.frameCount;
+-		carriedObject.gameObject.rigidbody.isKinematic = false;
+-		Pickupable p = carriedObject.GetComponent<Pickupable>();
+-		p.playSound();
+-		Vector3 throwDirection = Vector3.Scale (new Vector3(1f, 1f, 1f), 
+-		                                        new Vector3((float)spellSpeed, 0, 0));
+-		//Debug.Log ("Throw : " + throwDirection + " from speed: " + speed + ", amount: " + amount);
+-		carriedObject.gameObject.rigidbody.AddForce(throwDirection);
+-		carrying = false;
+-		carriedObject = null;
++		if(carriedObject.tag.Equals("Flame")){
++			carriedObject.gameObject.rigidbody.isKinematic = false;
++			Pickupable p = carriedObject.GetComponent<Pickupable>();
++			p.playSound();
++			Vector3 throwDirection = Vector3.Scale (new Vector3(1f, 1f, 1f), 
++			                                        new Vector3((float)spellSpeed, 0, 0));
++			//Debug.Log ("Throw : " + throwDirection + " from speed: " + speed + ", amount: " + amount);
++			carriedObject.gameObject.rigidbody.AddForce(throwDirection);
++			carrying = false;
++			carriedObject = null;
++		}
+ 	}
+ 
+ 	void dropObject() {
+diff --git a/unity_project/Assets/Standard Assets/Pickupable.cs b/unity_project/Assets/Standard Assets/Pickupable.cs
+index 9868fcb..d386483 100644
+--- a/unity_project/Assets/Standard Assets/Pickupable.cs	
++++ b/unity_project/Assets/Standard Assets/Pickupable.cs	
+@@ -13,12 +13,10 @@ public class Pickupable : MonoBehaviour {
+ 	
+ 	// Update is called once per frame
+ 	void Update () {
+-		
+ 	}
+ 
+ 	public void playSound(){
+ 		float val = Random.Range(.5f, 1f);
+ 		source.PlayOneShot(clip, val);
+-		Debug.Log("THROOOOOW");
+ 	}
+ }
+diff --git a/unity_project/Assets/_makeYOURlevel_LITE/_Quickstart/_makeYOURlevel_scene_BASE.unity b/unity_project/Assets/_makeYOURlevel_LITE/_Quickstart/_makeYOURlevel_scene_BASE.unity
+index 98e7082..0d31ce8 100644
+Binary files a/unity_project/Assets/_makeYOURlevel_LITE/_Quickstart/_makeYOURlevel_scene_BASE.unity and b/unity_project/Assets/_makeYOURlevel_LITE/_Quickstart/_makeYOURlevel_scene_BASE.unity differ
+diff --git a/unity_project/unity_project-csharp.sln b/unity_project/unity_project-csharp.sln
+index 80d5067..2ac536c 100644
+--- a/unity_project/unity_project-csharp.sln
++++ b/unity_project/unity_project-csharp.sln
+@@ -23,7 +23,7 @@ Global
+ 	GlobalSection(SolutionProperties) = preSolution
+ 		HideSolutionNode = FALSE
+ 	EndGlobalSection
+-																																																																																							GlobalSection(MonoDevelopProperties) = preSolution
++																																																																																														GlobalSection(MonoDevelopProperties) = preSolution
+ =======
+ 																																																																												GlobalSection(MonoDevelopProperties) = preSolution
+ >>>>>>> szymon
+diff --git a/unity_project/unity_project.sln b/unity_project/unity_project.sln
+index 5d0a381..f838e50 100644
+--- a/unity_project/unity_project.sln
++++ b/unity_project/unity_project.sln
+@@ -29,7 +29,7 @@ Global
+ 	GlobalSection(SolutionProperties) = preSolution
+ 		HideSolutionNode = FALSE
+ 	EndGlobalSection
+-																																																																																						GlobalSection(MonoDevelopProperties) = preSolution
++																																																																																													GlobalSection(MonoDevelopProperties) = preSolution
+ =======
+ 																																																																												GlobalSection(MonoDevelopProperties) = preSolution
+ >>>>>>> szymon
+diff --git a/unity_project/unity_project.userprefs b/unity_project/unity_project.userprefs
+index 6c76a03..ce07391 100644
+--- a/unity_project/unity_project.userprefs
++++ b/unity_project/unity_project.userprefs
+@@ -1,11 +1,8 @@
+ ﻿<Properties>
+   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Standard Assets\PickupObject.cs">
++  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\FPSInputController.js">
+     <Files>
+-      <File FileName="Assets\Standard Assets\Pickupable.cs" Line="8" Column="9" />
+-      <File FileName="Assets\Script\FPSInputController.js" Line="47" Column="4" />
+-      <File FileName="Assets\Script\FirstRoomLocker.js" Line="5" Column="33" />
+-      <File FileName="Assets\Standard Assets\PickupObject.cs" Line="77" Column="22" />
++      <File FileName="Assets\Script\FPSInputController.js" Line="106" Column="7" />
+     </Files>
+   </MonoDevelop.Ide.Workbench>
+   <MonoDevelop.Ide.DebuggingService.Breakpoints>

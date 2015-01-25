@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\BackgroundSound.js" />
      <Compile Include="Assets\Script\BounceUpAndDown.js" />
      <Compile Include="Assets\Script\CharacterMotor.js" />
      <Compile Include="Assets\Script\CubeCollider.js" />

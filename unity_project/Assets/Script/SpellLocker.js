@@ -11,13 +11,14 @@ function OnTriggerEnter (other : Collider){
 		object.transform.eulerAngles = Vector3(0,90,0);
 		player = object.GetComponent(FPSInputController);
 		player.setCanMove(0);
+		player.moveToSecondRoom();
 		
-		var objectToGrab : GameObject = GameObject.FindGameObjectWithTag(objectToGrabTag);
-		var p : Pickupable = objectToGrab.GetComponent(Pickupable);
-		Debug.Log(p);
-		
-		var pickupObject : PickupObject = object.GetComponent(PickupObject);
-		pickupObject.setThrowSpellParams(0, 100);
-		pickupObject.forcePickup(p);
+//		var objectToGrab : GameObject = GameObject.FindGameObjectWithTag(objectToGrabTag);
+//		var p : Pickupable = objectToGrab.GetComponent(Pickupable);
+//		Debug.Log(p);
+//		
+//		var pickupObject : PickupObject = object.GetComponent(PickupObject);
+//		pickupObject.setThrowSpellParams(0, 100);
+//		pickupObject.forcePickup(p);
 	}
 }

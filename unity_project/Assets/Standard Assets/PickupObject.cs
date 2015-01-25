@@ -9,7 +9,8 @@ public class PickupObject : MonoBehaviour {
 	public float smooth;
 	private bool grab;
 	private bool isThrow;
-	private bool hasKinect = false;
+	private bool isSpellThrown;
+	private bool hasKinect = true;
 	private double amount, speed, spellAmount, spellSpeed;
 	private int throwFrame;
 //	AudioClip pick;
@@ -31,6 +32,15 @@ public class PickupObject : MonoBehaviour {
 	public void setThrowSpellParams(double mAmount, double mSpeed){
 		spellAmount = mAmount;
 		spellSpeed = mSpeed;
+	}
+
+	public void setThrowSpell(double speed){
+		isSpellThrown = true;
+		spellSpeed = speed;
+	}
+
+	public void setSpellStopThrow(){
+		isSpellThrown = false;
 	}
 	
 	public void setNotThrow(){
@@ -83,11 +93,16 @@ public class PickupObject : MonoBehaviour {
 	}
 
 	public void forcePickup(Pickupable p) {
+		Debug.Log("PICKUP DAT BIATCH");
 		setGrab();
 		carrying = true;
 		carriedObject = p.gameObject;
 		Debug.Log (carriedObject);
-		p.gameObject.rigidbody.isKinematic = true;
+		
+		carriedObject.gameObject.rigidbody.isKinematic = false;
+		carriedObject.gameObject.rigidbody.transform.position = new Vector3(-1.7f, 4f, 17f);
+		carriedObject.gameObject.rigidbody.velocity = Vector3.zero;
+		carriedObject.gameObject.rigidbody.isKinematic = true;
 	}
 
 	void checkDrop() {
@@ -97,10 +112,8 @@ public class PickupObject : MonoBehaviour {
 	}
 
 	void checkThrow(){
-		if (/*TEMP-->*/ /*isThrow || */Input.GetKeyDown(KeyCode.F)) {
-			//throwObject ();
-			throwSpell();
-		}
+		if (isThrow) throwObject ();
+		else if (isSpellThrown) throwSpell();
 	}
 
 	void throwObject(){
@@ -115,15 +128,17 @@ public class PickupObject : MonoBehaviour {
 
 	void throwSpell() {
 		throwFrame = Time.frameCount;
-		carriedObject.gameObject.rigidbody.isKinematic = false;
-		Pickupable p = carriedObject.GetComponent<Pickupable>();
-		p.playSound();
-		Vector3 throwDirection = Vector3.Scale (new Vector3(1f, 1f, 1f), 
-		                                        new Vector3((float)spellSpeed, 0, 0));
-		//Debug.Log ("Throw : " + throwDirection + " from speed: " + speed + ", amount: " + amount);
-		carriedObject.gameObject.rigidbody.AddForce(throwDirection);
-		carrying = false;
-		carriedObject = null;
+		if(carriedObject.tag.Equals("Flame")){
+			carriedObject.gameObject.rigidbody.isKinematic = false;
+			Pickupable p = carriedObject.GetComponent<Pickupable>();
+			p.playSound();
+			Vector3 throwDirection = Vector3.Scale (new Vector3(1f, 1f, 1f), 
+			                                        new Vector3((float)spellSpeed, 0, 0));
+			//Debug.Log ("Throw : " + throwDirection + " from speed: " + speed + ", amount: " + amount);
+			carriedObject.gameObject.rigidbody.AddForce(throwDirection);
+			carrying = false;
+			carriedObject = null;
+		}
 	}
 
 	void dropObject() {
