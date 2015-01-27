@@ -32,6 +32,9 @@ function OnTriggerEnter (other : Collider){
 //		other.gameObject.SetActive(false);
 		var flagContains : int = 0;
 		
+		var soundSource : SoundSource = other.GetComponent(SoundSource);
+		soundSource.playSound();
+		
 		for(var i=0; i < cylindersHit.length; i++) {
 			if(cylindersHit[i] == this.gameObject) {
 				flagContains = 1;
@@ -49,6 +52,8 @@ function OnTriggerEnter (other : Collider){
 			if(cylinderCounter >= 5) {
 				//box.renderer.enabled = true;
 				other.gameObject.SetActive(false);
+				var locker : GameObject = GameObject.Find("FirstRoomLocker");
+				locker.gameObject.SetActive(false);
 				box.transform.position = Vector3(-6, 1, -5.5);
 				
 				// leaving the room after completing the puzzle

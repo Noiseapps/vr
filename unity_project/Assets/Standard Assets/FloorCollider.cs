@@ -13,11 +13,6 @@ public class FloorCollider : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other){
 		if(other.tag.Equals("Ball1")){
-	//		other.gameObject.SetActive(false);
-			//this.gameObject.SetActive(false);
-			//var object : GameObject = GameObject.FindGameObjectWithTag(door);
-			//object.active = false;
-	//		object.rigidbody.constraints = RigidbodyConstraints.None;
 
 			other.transform.position = new Vector3(-2.76f, 0.4f, 1.1f);
 			

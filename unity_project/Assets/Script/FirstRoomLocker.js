@@ -4,7 +4,7 @@ public var objectToGrabTag : String;
 
 function OnTriggerEnter (other : Collider){
 	if(other.tag.Equals("Player")){
-		this.gameObject.SetActive(false); // co to ?
+//		this.gameObject.SetActive(false); // co to ?
 		var object : GameObject = GameObject.FindGameObjectWithTag("Player");
 		Debug.Log(object);
 		Debug.Log("below an object in FPSInputController");

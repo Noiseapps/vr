@@ -58,6 +58,7 @@
      <Compile Include="Assets\Script\PlayerController.js" />
      <Compile Include="Assets\Script\RotateAndBounceLikeCrazy.js" />
      <Compile Include="Assets\Script\Rotator.js" />
+     <Compile Include="Assets\Script\SoundSource.js" />
      <Compile Include="Assets\Script\SpellLocker.js" />
      <None Include="Assets\Asset\Shaders\Normal-Diffuse.shader" />
      <None Include="Assets\Standard Assets\3DText.shader" />

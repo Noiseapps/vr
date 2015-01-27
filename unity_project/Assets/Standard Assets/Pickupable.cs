@@ -16,7 +16,7 @@ public class Pickupable : MonoBehaviour {
 	}
 
 	public void playSound(){
-		float val = Random.Range(.5f, 1f);
+		float val = Random.Range(.7f, 1f);
 		source.PlayOneShot(clip, val);
 	}
 }
