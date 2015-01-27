@@ -1,0 +1,38 @@
+Initialize engine version: 4.5.5f1 (7684ad0c5a44)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GT 630M     (ID=0xde9)
+    Vendor:   NVIDIA
+    VRAM:     1994 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+Platform assembly: D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\uScriptRuntime.dll (this message is harmless)
+Loading D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\uScriptRuntime.dll into Unity Child Domain
+- Completed reload, in  0.053 seconds
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+Platform assembly: D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\UnityScript.Lang.dll (this message is harmless)
+Platform assembly: D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\Boo.Lang.dll (this message is harmless)
+WARNING: Shader Unsupported: 'Hidden/TerrainEngine/Details/BillboardWavingDoublePass' - Pass '' shader state not supported
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1783)
+
+-2097086444
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+NuiInitialize Failed.
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Platform assembly: D:\Dokumenty\GitHub\vr\out\escape_the_room_Data\Managed\System.dll (this message is harmless)

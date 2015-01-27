@@ -10,7 +10,7 @@ public class PickupObject : MonoBehaviour {
 	private bool grab;
 	private bool isThrow;
 	private bool isSpellThrown;
-	private bool hasKinect = true;
+	private bool hasKinect = false;
 	private double amount, speed, spellAmount, spellSpeed;
 	private int throwFrame;
 //	AudioClip pick;
@@ -111,8 +111,8 @@ public class PickupObject : MonoBehaviour {
 	}
 
 	void checkThrow(){
-		if (isThrow) throwObject ();
-		else if (isSpellThrown) throwSpell();
+		if (isThrow || Input.GetKeyDown(KeyCode.E)) throwObject ();
+		else if (isSpellThrown || Input.GetKeyDown(KeyCode.F)) throwSpell();
 	}
 
 	void throwObject(){
